@@ -229,14 +229,6 @@ function handleKeyPress(event)
 	switch(ch)
 	{
 
-	case 's':
-		shininess += 1;
-		console.log("exponent: " + shininess);
-		break;
-	case 'S':
-		shininess -= 1;
-		console.log("exponent: " + shininess);
-		break;
 	case ' ':
 		paused = !paused;
 		break;
@@ -257,8 +249,6 @@ function handleKeyPress(event)
 			return;
 	}
 }
-
-
 
 // code to actually render our geometry
 function draw()
@@ -372,14 +362,17 @@ var canvas
 //This program's OpenGL context
 var gl
 
+var moveHandler = new MoveHandler()
 function init_canvas() {
 
-	canvas = document.getElementById('theCanvas');
-	window.onkeypress = handleKeyPress;
-	gl = getWebGLContext(canvas, false);
+	canvas = document.getElementById('theCanvas')
+	window.onkeypress = handleKeyPress
+	window.onkeydown = function(event) {moveHandler.handleKeyDown(event)}
+	window.onkeyup = function(event) {moveHandler.handleKeyUp(event)}
+	gl = getWebGLContext(canvas, false)
 	if (!gl) {
-		console.log('Failed to get the rendering context for WebGL');
-		return;
+		console.log('Failed to get the rendering context for WebGL')
+		return
 	}
 
 }
@@ -488,35 +481,44 @@ function main() {
 	init_shaders()
 	init_buffers()
 
+	console.log("Loaded stuff")
+
 	// define an animation loop
+	var moveForwardSpeed = 0.1
+	var moveRightSpeed = 0.1
+	var lookUpSpeed = 0.3
+	var lookRightSpeed = 0.3
 	var animate = function() {
-	draw();
+		draw();
 
-	// increase the rotation by some amount, depending on the axis chosen
-	var increment = 0.5;
-	if (!paused)
-	{
-		switch(axis)
+		// increase the rotation by some amount, depending on the axis chosen
+		var increment = 0;
+		if (!paused)
 		{
-		case 'x':
-			model = new Matrix4().setRotate(increment, 1, 0, 0).multiply(model);
-			axis = 'x';
-			break;
-		case 'y':
-			axis = 'y';
-			model = new Matrix4().setRotate(increment, 0, 1, 0).multiply(model);
-			break;
-		case 'z':
-			axis = 'z';
-			model = new Matrix4().setRotate(increment, 0, 0, 1).multiply(model);
-			break;
-		default:
+			switch(axis)
+			{
+			case 'x':
+				model = new Matrix4().setRotate(increment, 1, 0, 0).multiply(model);
+				axis = 'x';
+				break;
+			case 'y':
+				axis = 'y';
+				model = new Matrix4().setRotate(increment, 0, 1, 0).multiply(model);
+				break;
+			case 'z':
+				axis = 'z';
+				model = new Matrix4().setRotate(increment, 0, 0, 1).multiply(model);
+				break;
+			default:
+			}
 		}
-	}
 
-	// request that the browser calls animate() again "as soon as it can"
-    requestAnimationFrame(animate, canvas);
-  };
+		//Move the camera
+		view = moveHandler.moveMatrix(view)	
+
+		// request that the browser calls animate() again "as soon as it can"
+		requestAnimationFrame(animate, canvas);
+	};
 
   // start drawing!
   animate();

@@ -18,13 +18,75 @@ as 3x3 matrices.  See Lighting3.js.
 <p>
 Keyboard controls:
 </p><ul style="list-style:none;">
-<li>SPACE - pause rotation
-</li><li>x - rotate about x axis
-</li><li>y - rotate about y axis
-</li><li>z - rotate about z axis
-</li><li>o - Reset to initial state
-</li><li>
+<li>w - Move forward
+</li><li>s - Move backward
+</li><li>a - Move left
+</li><li>d - Move right
+</li><li>e - Move up
+</li><li>q - Move down
+</li><li>Up arrow - Look up
+</li><li>Down arrow - Look down
+</li><li>Left arrow - Turn left
+</li><li>Right arrow - Turn right
 </li></ul>
+
+<!-- VERTEX SHADING
+
+-->
+<script id="vertexRaytracingShader" type="x-shader/x-vertex">
+
+</script>
+
+<!-- FRAGMENT SHADING
+
+	Where probably the bulk of the work will happen. I figure each fragment
+	represents a pixel, so we'll use that to send the rays out of. The
+	FragCoord variable should contain the coordinate of the center of the
+	pixel, so for each pixel we'll send out one or more rays to the world.
+	Pseudocode:
+	
+	num_B: The number of times that the ray is allowed to bounce
+	L[]: Array of lights
+	F[]: Array of faces, including color/material/reflection/transparency data
+
+	For each fragment/pixel:
+
+		D: Direction of the ray
+		P: The starting position of the ray
+		NF: The closest face that intersects with the ray, starts as null
+		C: The total color being collected by the ray
+
+		For i = 0..num_B:
+			
+			For F in F[]:
+				If every vertex of F is behind the halfplane created by D and P, ignore it
+				Calculate if there's any point I in which the ray and F intersect
+				If I exists:
+					Set NF to either F or NF according to which I is closer
+				For L in L[]:
+					If F obstructs the line from P to L:
+						Set L to 'obstructed'
+
+			If i != 0: //If the starting position is on the eyeball, don't add the diffuse/specular properties of the lights
+				Add the ambient light properties of the world to C
+				For L in L[]:
+					If L is not 'obstructed'
+						Add the diffuse/specular properties of L to C
+
+			If no NF was found (The ray didn't collide with a face):
+				Either sample from skybox, or set that ray's contribution to 0
+				Break out of the loop
+
+			Else:
+				D = The direction of the reflected ray when it bounces off the face NF
+				P = I
+				NF = null
+				Reduce the subsiquent contributions of C of other faces the ray reaches by some factor
+
+-->
+<script id="fragmentRaytracingShader" type="x-shader/x-fragment">
+
+</script>
 
 <script id="vertexLightingShader" type="x-shader/x-vertex">
 uniform mat4 model;
@@ -132,6 +194,7 @@ void main()
 		<!--  otherwise, load the minified version from the www -->
 		<script src="index_files/three.js"></script>
 
+		<script src="index_files/keyhandler.js"></script>
 		<script src="index_files/Lighting3.js"></script>
 		<script>window.onload = main</script>
 
