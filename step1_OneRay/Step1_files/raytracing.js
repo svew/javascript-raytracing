@@ -87,7 +87,6 @@ Sphere.prototype.collide = function(ray) {
 	return { collided: true, distance: q.subtract(ray.start).length() }
 }
 
-
 //Get all of the objects that exist in the world (currently, just spheres)
 function getWorld() {
 	let world = []
