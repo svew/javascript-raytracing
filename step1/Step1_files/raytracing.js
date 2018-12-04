@@ -74,7 +74,7 @@ Sphere.prototype.collide = function(ray) {
 	if(c > 0.0 && b > 0.0)  {
 		return { collided: false, distance: NaN } //Origin outside of sphere, and ray faces away
 	}
-	
+
 	let discriminant = b*b - c
 	if(discriminant < 0.0) {
 		return { collided: false, distance: NaN } //Ray misses sphere
