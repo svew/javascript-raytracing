@@ -9,7 +9,7 @@ camera.position.z = 600;
 var renderer = new THREE.WebGLRenderer({antialias:true}); //Replace with our own renderer for ray tracing
 
 // Configure renderer clear color
-renderer.setClearColor("#f0f0f0");
+renderer.setClearColor("black");
 
 // Configure renderer size
 renderer.setSize( 1280 , 720 );
@@ -37,21 +37,20 @@ sphere.scale.multiplyScalar( 3.0 );
 scene.add( sphere );
 
 geometry = new THREE.SphereGeometry(50, 64, 32 );
-var sphere2 = new THREE.Mesh( geometry, phongMaterial);
+var sphere2 = new THREE.Mesh(geometry, phongMaterial);
 sphere2.position.set(350, 0, -300);
 sphere2.scale.multiplyScalar( 3.0 );
 
 scene.add( sphere2 );
 
 geometry = new THREE.SphereGeometry(50, 64, 32 );
-var sphere3 = new THREE.Mesh( geometry, phongMaterial);
+var sphere3 = new THREE.Mesh(geometry, phongMaterial);
 sphere3.position.set(0, 0, 0);
 sphere3.scale.multiplyScalar( 3.0 );
 
 scene.add( sphere3 );
 
 // SETUP LIGHTS
-
 var intensity = 1.0;
 var light = new THREE.PointLight("white", intensity);
 light.position.set( -500, 100, 100);

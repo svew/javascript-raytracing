@@ -8,10 +8,10 @@ function getWorld() {
 	let lights = []
 
 	// Push objects
-	objects.push(new Sphere(new Vector(0.0, 0.0, 2.0), 0.5, [200, 150, 100]))
+	objects.push(new Sphere(new Vector(0.0, 0.0, 2.0), 0.1, [255, 0, 0]))
 
 	// Push lights
-	lights.push(new PointLight(new Vector(1.0, 1.0, 0.0), [255, 255, 255], 50))
+	lights.push(new PointLight(new Vector(-1, 0, 1), [255, 255, 255], 10))
 
 	return { objects: objects, lights: lights }
 }
@@ -66,6 +66,7 @@ function traceRay(canvasX, canvasY, world) {
 	}
 
 	let lightContributions
+	let color = result.object.color
 
 	// Search for lights which shine on this point
 	for(let i = 0; i < world.lights.length; i++) {
@@ -79,12 +80,12 @@ function traceRay(canvasX, canvasY, world) {
 
 		//No light obstructions!
 		if(!lightCollision.collided || lightCollision.distance <= distanceFromLight) {
-			let lightSphereSurfaceArea = (4 * 3.14159 * Math.pow(distanceFromLight, 2))
+			let lightSphereSurfaceArea = (4 * Math.PI * Math.pow(distanceFromLight, 2))
 			let intensityAtIntersection = light.intensity / lightSphereSurfaceArea
+
+			color = [color[0]*intensityAtIntersection, color[1]*intensityAtIntersection, color[2]*intensityAtIntersection];
 		}
 	}
-
-	let color = result.object.color
 	return color
 }
 

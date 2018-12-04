@@ -1,4 +1,3 @@
-
 /*
 	i, j, k: Integers denoting direction vector is going in.
 */
