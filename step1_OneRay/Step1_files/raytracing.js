@@ -84,14 +84,16 @@ Sphere.prototype.collide = function(ray) {
 	if(t < 0.0) t = 0.0
 	let q = ray.vectorDirection.multiply(t).add(ray.start)
 
-	return { collided: true, distance: q.subtract(this.center).length() }
+	return { collided: true, distance: q.subtract(ray.start).length() }
 }
 
 //Get all of the objects that exist in the world (currently, just spheres)
 function getWorld() {
 	let world = []
 
+	// Push the world objects
 	world.push(new Sphere(new Vector(0.0, 0.0, 2.0), 0.5, [200, 150, 100]))
+	world.push(new Sphere(new Vector(0.3, -0.4, 1.3), 0.2, [10, 250, 100]))
 
 	return world
 }
