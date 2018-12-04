@@ -64,20 +64,19 @@ function traceRay(canvasX, canvasY, world) {
 	if(!result.collided) {
 		return [0, 0, 0]
 	}
-	
+
 	// Search for lights which shine on this point
-	for(let i = 0; i < world.lights.length(); i++) {
+	for(let i = 0; i < world.lights.length; i++) {
 
 		let light = world.lights[i]
 		let lightRay = new Ray(
-				light.position, 
+				light.position,
 				light.position.subtract(result.intersection))
 		let distanceFromLight = lightRay.direction.length()
 		let lightCollision = findCollision(lightRay, world)
 
 		//No light obstructions!
 		if(!lightCollision.collided || lightCollision.distance <= distanceFromLight) {
-
 		}
 	}
 
