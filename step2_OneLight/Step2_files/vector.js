@@ -48,17 +48,17 @@ Vector.prototype.cross = function(v) {
 	return new Vector(sx, sy, sz)
 }
 Vector.prototype.normalize = function() {
-	let length = this.length()
-	return new Vector(this.x/length, this.y/length, this.z/length)
+	let len = this.len()
+	return new Vector(this.x/len, this.y/len, this.z/len)
 }
-Vector.prototype.length = function() {
+Vector.prototype.len = function() {
 	return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z)
 }
 Vector.prototype.dot = function(v) {
 	return this.x*v.x + this.y*v.y + this.z*v.z
 }
 Vector.prototype.cosangle = function(v) {
-	return this.dot(v).divide(this.length()).divide(this.length())
+	return this.dot(v).divide(this.len()).divide(v.len())
 }
 Vector.prototype.angle = function(v) {
 	return Math.acos(this.cosangle(v))

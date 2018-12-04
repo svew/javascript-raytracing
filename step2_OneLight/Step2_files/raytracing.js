@@ -28,7 +28,7 @@ function findCollision(ray, world) {
 
 		if(result.collided) {
 
-			let distance = result.intersection.subtract(ray.start).length()
+			let distance = result.intersection.subtract(ray.start).len()
 
 			if(shortestObject == null || distance < shortestDistance) {
 				shortestObject = obj
@@ -65,6 +65,8 @@ function traceRay(canvasX, canvasY, world) {
 		return [0, 0, 0]
 	}
 
+	let lightContributions
+
 	// Search for lights which shine on this point
 	for(let i = 0; i < world.lights.length; i++) {
 
@@ -72,21 +74,24 @@ function traceRay(canvasX, canvasY, world) {
 		let lightRay = new Ray(
 				light.position,
 				light.position.subtract(result.intersection))
-		let distanceFromLight = lightRay.direction.length()
+		let distanceFromLight = lightRay.direction.len()
 		let lightCollision = findCollision(lightRay, world)
 
 		//No light obstructions!
 		if(!lightCollision.collided || lightCollision.distance <= distanceFromLight) {
+			let lightSphereSurfaceArea = (4 * 3.14159 * Math.pow(distanceFromLight, 2))
+			let intensityAtIntersection = light.intensity / lightSphereSurfaceArea
 		}
 	}
 
-	return shortestObject.color
+	let color = result.object.color
+	return color
 }
 
 // entry point when page is loaded
 function main() {
-	var canvas = document.getElementById('theCanvas');
-	var context = canvas.getContext('2d', {antialias: false, depth: false});
+	var canvas = document.getElementById('theCanvas')
+	var context = canvas.getContext('2d', {antialias: false, depth: false})
 	var imageData = context.getImageData(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
 	var world = getWorld()
 
@@ -97,7 +102,7 @@ function main() {
 			let color = traceRay(x, y, world)
 
 			//Draw that pixel on the pixel data array
-			var index = (y * CANVAS_WIDTH + x) * 4;
+			var index = (y * CANVAS_WIDTH + x) * 4
 			imageData.data[index]     = color[0] // R
 			imageData.data[index + 1] = color[1] // G
 			imageData.data[index + 2] = color[2] // B
@@ -105,7 +110,6 @@ function main() {
 		}
 	}
 
-	context.putImageData(imageData, 0, 0, );
-
+	context.putImageData(imageData, 0, 0)
 	console.log("Finished!")
 }
