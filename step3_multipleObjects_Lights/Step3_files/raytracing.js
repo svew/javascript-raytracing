@@ -59,6 +59,7 @@ function traceRay(canvasX, canvasY, world) {
 	let sx = (canvasX / CANVAS_WIDTH) * 2 - 1
 	let sy = (canvasY / CANVAS_HEIGHT) * 2 - 1
 	let sz = 0
+	let shininess = 40
 
 	let ray = new Ray(new Vector(sx, sy, sz), new Vector(0, 0, 1))
 	let result = findCollision(ray, world)
@@ -120,9 +121,9 @@ function traceRay(canvasX, canvasY, world) {
 
 		    // specular factor from Phong reflection model
 		    let specularFactor = new Vector(
-				Math.pow(Math.max(0.0, V.x * R.x), intensityAtIntersection),
-				Math.pow(Math.max(0.0, V.y * R.y), intensityAtIntersection),
-				Math.pow(Math.max(0.0, V.z * R.z), intensityAtIntersection)
+				Math.pow(Math.max(0.0, V.x * R.x), shininess),
+				Math.pow(Math.max(0.0, V.y * R.y), shininess),
+				Math.pow(Math.max(0.0, V.z * R.z), shininess
 			);
 
 			color = [
