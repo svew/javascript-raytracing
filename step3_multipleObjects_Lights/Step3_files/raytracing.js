@@ -86,7 +86,48 @@ function traceRay(canvasX, canvasY, world) {
 			let lightSphereSurfaceArea = (4 * Math.PI * Math.pow(distanceFromLight, 2))
 			let intensityAtIntersection = light.intensity / lightSphereSurfaceArea
 
-			color = [color[0]*intensityAtIntersection, color[1]*intensityAtIntersection, color[2]*intensityAtIntersection];
+			//Vertex Shader Work
+
+			//Need to set up
+			//TODO
+			let fL = new Vector(0, 0, 0);
+			let fN = new Vector(0, 0, 0);
+			let fR = new Vector(0, 0, 0);
+
+			//Normalized versions of the above
+			//Fragment Shader Work
+			//TODO
+			let L = new Vector(0, 0, 0);
+			let N = new Vector(0, 0, 0);
+			let R = new Vector(0, 0, 0);
+
+			//Set up colors
+			//TODO
+			diffuseColor = [255, 255, 255];
+			specularColor = [255, 255, 255];
+			ambientColor = [255, 255, 255];
+
+			// Lambert's law, clamp negative values to zero
+		    let diffuseFactor = new Vector(
+				Math.max(0.0, L.x * N.x),
+				Math.max(0.0, L.y * N.y),
+				Math.max(0.0, L.z * N.z)
+			);
+
+		    // specular factor from Phong reflection model
+		    let specularFactor = new Vector(
+				Math.pow(Math.max(0.0, V.x * R.x), intensityAtIntersection),
+				Math.pow(Math.max(0.0, V.y * R.y), intensityAtIntersection),
+				Math.pow(Math.max(0.0, V.z * R.z), intensityAtIntersection)
+			);
+
+			color = [
+				//This is the idea, this code wont work in our case.
+				//Needs update
+				color[0] + diffuseColor * diffuseFactor + specularColor * specularFactor + ambientColor,
+				color[1] + diffuseColor * diffuseFactor + specularColor * specularFactor + ambientColor,
+				color[2] + diffuseColor * diffuseFactor + specularColor * specularFactor + ambientColor
+			];
 		}
 	}
 	return color
