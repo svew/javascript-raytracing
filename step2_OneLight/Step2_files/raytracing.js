@@ -51,11 +51,11 @@ function findCollision(ray, world) {
 	}
 }
 
-// Acts as a fragment shader
 function traceRay(canvasX, canvasY, world) {
 	let sx = (canvasX / CANVAS_WIDTH) * 2 - 1
 	let sy = (canvasY / CANVAS_HEIGHT) * 2 - 1
 	let sz = 0
+	let shininess = 40
 
 	let ray = new Ray(new Vector(sx, sy, sz), new Vector(0, 0, 1))
 	let result = findCollision(ray, world)
@@ -73,8 +73,9 @@ function traceRay(canvasX, canvasY, world) {
 
 		let light = world.lights[i]
 		let lightRay = new Ray(
-				light.position,
-				light.position.subtract(result.intersection))
+			light.position,
+			light.position.subtract(result.intersection)
+		);
 		let distanceFromLight = lightRay.direction.len()
 		let lightCollision = findCollision(lightRay, world)
 
@@ -83,7 +84,52 @@ function traceRay(canvasX, canvasY, world) {
 			let lightSphereSurfaceArea = (4 * Math.PI * Math.pow(distanceFromLight, 2))
 			let intensityAtIntersection = light.intensity / lightSphereSurfaceArea
 
-			color = [color[0]*intensityAtIntersection, color[1]*intensityAtIntersection, color[2]*intensityAtIntersection];
+			//Vertex Shader Work
+
+			//Need to set up
+			//TODO
+			let fL = new Vector(0, 0, 0);
+			let fN = new Vector(0, 0, 0);
+			let fR = new Vector(0, 0, 0);
+			let fV = new Vector(0, 0, 0);
+
+			//Fragment Shader Work
+
+			//TODO
+			//Normalized versions of the above
+			let L = new Vector(0, 0, 0);
+			let N = new Vector(0, 0, 0);
+			let R = new Vector(0, 0, 0);
+			let V = new Vector(0, 0, 0);
+
+			// Reflected vector (NEEDS TO BE UPDATE FOR JS)
+		    //let Reflection = reflect(-L, N);
+
+			//TODO
+			//Set up colors
+			diffuseColor = [255, 255, 255];
+			specularColor = [255, 255, 255];
+			ambientColor = [255, 255, 255];
+
+			// Lambert's law, clamp negative values to zero
+		    let diffuseFactor = new Vector(
+				Math.max(0.0, L.x * N.x),
+				Math.max(0.0, L.y * N.y),
+				Math.max(0.0, L.z * N.z)
+			);
+
+		    // specular factor from Phong reflection model
+		    let specularFactor = new Vector(
+				Math.pow(Math.max(0.0, V.x * R.x), shininess),
+				Math.pow(Math.max(0.0, V.y * R.y), shininess),
+				Math.pow(Math.max(0.0, V.z * R.z), shininess)
+			);
+
+			color = [
+				color[0] + diffuseColor[0] * diffuseFactor.x + specularColor[0] * specularFactor.x + ambientColor[0],
+				color[1] + diffuseColor[1] * diffuseFactor.y + specularColor[1] * specularFactor.y + ambientColor[1],
+				color[2] + diffuseColor[2] * diffuseFactor.z + specularColor[2] * specularFactor.z + ambientColor[2]
+			];
 		}
 	}
 	return color
