@@ -126,11 +126,9 @@ function traceRay(canvasX, canvasY, world) {
 			);
 
 			color = [
-				//This is the idea, this code wont work in our case.
-				//Needs update
-				color[0] + diffuseColor * diffuseFactor + specularColor * specularFactor + ambientColor,
-				color[1] + diffuseColor * diffuseFactor + specularColor * specularFactor + ambientColor,
-				color[2] + diffuseColor * diffuseFactor + specularColor * specularFactor + ambientColor
+				color[0] + diffuseColor[0] * diffuseFactor.x + specularColor[0] * specularFactor.x + ambientColor[0],
+				color[1] + diffuseColor[1] * diffuseFactor.y + specularColor[1] * specularFactor.y + ambientColor[1],
+				color[2] + diffuseColor[2] * diffuseFactor.z + specularColor[2] * specularFactor.z + ambientColor[2]
 			];
 		}
 	}
