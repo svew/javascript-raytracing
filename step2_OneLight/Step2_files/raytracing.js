@@ -88,19 +88,19 @@ function traceRay(canvasX, canvasY, world) {
 
 			//Need to set up
 			//TODO
-			let fL = new Vector(0, 0, 0);
-			let fN = new Vector(0, 0, 0);
-			let fR = new Vector(0, 0, 0);
-			let fV = new Vector(0, 0, 0);
+			let fL = new Vector(1, 0, 0);
+			let fN = new Vector(1, 0, 0);
+			let fR = new Vector(1, 0, 0);
+			let fV = new Vector(1, 0, 0);
 
 			//Fragment Shader Work
 
 			//TODO
 			//Normalized versions of the above
-			let L = new Vector(0, 0, 0);
-			let N = new Vector(0, 0, 0);
-			let R = new Vector(0, 0, 0);
-			let V = new Vector(0, 0, 0);
+			let L = fL.normalize()
+			let N = fN.normalize()
+			let R = fR.normalize()
+			let V = fV.normalize()
 
 			// Reflected vector (NEEDS TO BE UPDATE FOR JS)
 		    //let Reflection = reflect(-L, N);
