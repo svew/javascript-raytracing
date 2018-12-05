@@ -94,6 +94,7 @@ function traceRay(canvasX, canvasY, world) {
 			let fL = new Vector(0, 0, 0);
 			let fN = new Vector(0, 0, 0);
 			let fR = new Vector(0, 0, 0);
+			let fV = new Vector(0, 0, 0);
 
 			//Fragment Shader Work
 
@@ -102,9 +103,10 @@ function traceRay(canvasX, canvasY, world) {
 			let L = new Vector(0, 0, 0);
 			let N = new Vector(0, 0, 0);
 			let R = new Vector(0, 0, 0);
+			let V = new Vector(0, 0, 0);
 
 			// Reflected vector (NEEDS TO BE UPDATE FOR JS)
-		    let R = reflect(-L, N);
+		    //let Reflection = reflect(-L, N);
 
 			//TODO
 			//Set up colors
@@ -123,7 +125,7 @@ function traceRay(canvasX, canvasY, world) {
 		    let specularFactor = new Vector(
 				Math.pow(Math.max(0.0, V.x * R.x), shininess),
 				Math.pow(Math.max(0.0, V.y * R.y), shininess),
-				Math.pow(Math.max(0.0, V.z * R.z), shininess
+				Math.pow(Math.max(0.0, V.z * R.z), shininess)
 			);
 
 			color = [
