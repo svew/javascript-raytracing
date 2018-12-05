@@ -77,8 +77,9 @@ function traceRay(canvasX, canvasY, world) {
 
 		let light = world.lights[i]
 		let lightRay = new Ray(
-				light.position,
-				light.position.subtract(result.intersection))
+			light.position,
+			light.position.subtract(result.intersection)
+		);
 		let distanceFromLight = lightRay.direction.len()
 		let lightCollision = findCollision(lightRay, world)
 
