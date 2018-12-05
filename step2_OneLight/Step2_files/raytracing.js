@@ -1,6 +1,6 @@
 
-var CANVAS_WIDTH = 400
-var CANVAS_HEIGHT = 400
+var CANVAS_WIDTH = 800
+var CANVAS_HEIGHT = 800
 
 //Get all of the objects that exist in the world
 function getWorld() {
@@ -8,7 +8,7 @@ function getWorld() {
 	let lights = []
 
 	// Push objects
-	objects.push(new Sphere(new Vector(-0.4, 0.3, 2.0), 0.3, [255, 0, 0]))
+	objects.push(new Sphere(new Vector(0, 0, 2.0), 0.5, [255, 0, 200]))
 
 	// Push lights
 	lights.push(new PointLight(new Vector(-1.5, 0, 1), [255, 255, 255], 10))
@@ -56,13 +56,15 @@ function traceRay(canvasX, canvasY, world) {
 	let sy = (canvasY / CANVAS_HEIGHT) * 2 - 1
 	let sz = 0
 	let shininess = 40
+	let ambientStrength = 0.1;
+	let specularStength = 0.5;
 
 	let ray = new Ray(new Vector(sx, sy, sz), new Vector(0, 0, 1))
 	let result = findCollision(ray, world)
 
 	// If no collision occured, the ray flies into space
 	if(!result.collided) {
-		return [0, 0, 0]
+		return [60, 60, 60]
 	}
 
 	let lightContributions
@@ -95,7 +97,6 @@ function traceRay(canvasX, canvasY, world) {
 
 			//Fragment Shader Work
 
-			//TODO
 			//Normalized versions of the above
 			let L = fL.normalize()
 			let N = fN.normalize()
@@ -103,13 +104,17 @@ function traceRay(canvasX, canvasY, world) {
 			let V = fV.normalize()
 
 			// Reflected vector (NEEDS TO BE UPDATE FOR JS)
-		    //let Reflection = reflect(-L, N);
+		    //R = reflect(-L, N);
 
 			//TODO
 			//Set up colors
 			diffuseColor = [255, 255, 255];
 			specularColor = [255, 255, 255];
-			ambientColor = [255, 255, 255];
+			ambientColor = [
+				world.lights[i].color[0] * ambientStrength,
+				world.lights[i].color[1] * ambientStrength,
+				world.lights[i].color[2] * ambientStrength
+			];
 
 			// Lambert's law, clamp negative values to zero
 		    let diffuseFactor = new Vector(
@@ -126,9 +131,9 @@ function traceRay(canvasX, canvasY, world) {
 			);
 
 			color = [
-				color[0] + diffuseColor[0] * diffuseFactor.x + specularColor[0] * specularFactor.x + ambientColor[0],
-				color[1] + diffuseColor[1] * diffuseFactor.y + specularColor[1] * specularFactor.y + ambientColor[1],
-				color[2] + diffuseColor[2] * diffuseFactor.z + specularColor[2] * specularFactor.z + ambientColor[2]
+				color[0] * (diffuseColor[0] * diffuseFactor.x + specularColor[0] * specularFactor.x + ambientColor[0]),
+				color[1] * (diffuseColor[1] * diffuseFactor.y + specularColor[1] * specularFactor.y + ambientColor[1]),
+				color[2] * (diffuseColor[2] * diffuseFactor.z + specularColor[2] * specularFactor.z + ambientColor[2])
 			];
 		}
 	}

@@ -5,7 +5,6 @@ var Vector = function(x, y, z) {
 	this.x = x
 	this.y = y
 	this.z = z
-	this.magnitude = Math.sqrt(Math.pow(x, 2), Math.pow(y, 2), Math.pow(z, 2))
 }
 
 /*
@@ -31,7 +30,7 @@ Vector.prototype.subtract = function(v) {
 }
 Vector.prototype.multiply = function(v) {
 	if(typeof v == "number") {
-		v = new Vector(v, v, v)
+		v = new Vector(this.x * v, this.y * v, this.z * v)
 	}
 	return new Vector(this.x * v.x, this.y * v.y, this.z * v.z)
 }
