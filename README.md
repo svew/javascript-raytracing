@@ -17,8 +17,7 @@ For each ray collision, we can shoot another ray out from that intersection poin
 One of the fanciest parts of raytracing, but is actually very simple. Since the color contribution of each bouncing ray is normally reduced by some fraction, instead make it so that the bouncing ray accounts for the entire color.
 
 ## Step 6: Randomization
-By shooting multiple rays out from a single pixel, we can get an antialiasing effect. These rays would shoot from random positions within the pixel's dimensions. Since we are shooting multiple rays per pixel, we can also afford to have the rays bounce in random ways, to reflect how diffuse lighting would actually act, and
-collect light from sources that would have been unseeable in past iterations. Much more computationally intense, but creates a much more realistic image.
+By shooting multiple rays out from a single pixel, we can get an antialiasing effect. These rays would shoot from random positions within the pixel's dimensions. Since we are shooting multiple rays per pixel, we can also afford to have the rays bounce in random ways, to reflect how diffuse lighting would actually act, and collect light from sources that would have been unseeable in past iterations. Much more computationally intense, but creates a much more realistic image.
 
 ## Step 7: Transparency
 If we have time?
