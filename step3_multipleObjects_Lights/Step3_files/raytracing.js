@@ -94,15 +94,19 @@ function traceRay(canvasX, canvasY, world) {
 			let fN = new Vector(0, 0, 0);
 			let fR = new Vector(0, 0, 0);
 
-			//Normalized versions of the above
 			//Fragment Shader Work
+
 			//TODO
+			//Normalized versions of the above
 			let L = new Vector(0, 0, 0);
 			let N = new Vector(0, 0, 0);
 			let R = new Vector(0, 0, 0);
 
-			//Set up colors
+			// Reflected vector (NEEDS TO BE UPDATE FOR JS)
+		    let R = reflect(-L, N);
+
 			//TODO
+			//Set up colors
 			diffuseColor = [255, 255, 255];
 			specularColor = [255, 255, 255];
 			ambientColor = [255, 255, 255];
