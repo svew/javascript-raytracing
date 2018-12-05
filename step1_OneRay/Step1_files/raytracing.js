@@ -29,16 +29,6 @@ Vector.prototype.multiply = function(v) {
 	}
 	return new Vector(this.x * v.x, this.y * v.y, this.z * v.z)
 }
-Vector.prototype.cross = function(v) {
-	let sx = this.y*v.z - this.z*v.y
-	let sy = this.z*v.x - this.x*v.z
-	let sz = this.x*v.y - this.y*v.x
-	return new Vector(sx, sy, sz)
-}
-Vector.prototype.normalize = function() {
-	let length = this.length()
-	return new Vector(this.x/length, this.y/length, this.z/length)
-}
 Vector.prototype.length = function() {
 	return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z)
 }

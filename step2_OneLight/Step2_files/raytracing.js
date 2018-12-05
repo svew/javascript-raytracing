@@ -2,16 +2,16 @@
 var CANVAS_WIDTH = 400
 var CANVAS_HEIGHT = 400
 
-//Get all of the objects that exist in the world (currently, just spheres)
+//Get all of the objects that exist in the world
 function getWorld() {
 	let objects = []
 	let lights = []
 
 	// Push objects
-	objects.push(new Sphere(new Vector(0.0, 0.0, 2.0), 0.5, [255, 0, 0]))
+	objects.push(new Sphere(new Vector(-0.4, 0.3, 2.0), 0.3, [255, 0, 0]))
 
 	// Push lights
-	lights.push(new PointLight(new Vector(-1, 0, 1), [255, 255, 255], 10))
+	lights.push(new PointLight(new Vector(-1.5, 0, 1), [255, 255, 255], 10))
 
 	return { objects: objects, lights: lights }
 }
