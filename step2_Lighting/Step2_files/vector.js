@@ -65,3 +65,6 @@ Vector.prototype.cosangle = function(v) {
 Vector.prototype.angle = function(v) {
 	return Math.acos(this.cosangle(v))
 }
+Vector.prototype.string = function() {
+	return "<" + this.x + ", " + this.y + ", " + this.z + ">"
+}

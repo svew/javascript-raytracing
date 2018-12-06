@@ -7,17 +7,21 @@ function getWorld() {
 
 	// Push objects
 	let objects = []
-	objects.push(new Sphere(new Vector(0, 0, 2.0), 0.5, new Vector(1, 0, 0)))
-	objects.push(new Sphere(new Vector(-0.5, 0.5, 2.0), 0.2, new Vector(1, 1, 1)))
+	objects.push(new Sphere(new Vector(-0.1, 0, 2.0), 0.5, new Vector(1, 0, 0))) //Large
+	objects.push(new Sphere(new Vector(-0.5, 0.5, 2.0), 0.2, new Vector(1, 1, 1))) //Small
+	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
+
 
 	// Push lights
 	let lights = []
-	lights.push(new PointLight(new Vector(4, -1, -1), new Vector(0, 1, 1), 20))
-	lights.push(new PointLight(new Vector(-2, 0, 2), new Vector(1, 0, 0), 20))
+	lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 20)) //Green
+	lights.push(new PointLight(new Vector(-8, 0.9, 1), new Vector(1, 0, 0), 20)) //Red
+	lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 20)) //Blue
 
 	let ambientColor = new Vector(1,1,1)
 	let ambientStrength = 0.2
 	let backgroundColor = new Vector(0.1,0)
+	let aperature = 2.0 //How much light we collect from the world
 
 	return { 
 		objects: objects, 
@@ -25,16 +29,19 @@ function getWorld() {
 		ambientColor: ambientColor,
 		ambientStrength: ambientStrength,
 		backgroundColor: backgroundColor,
+		aperature: aperature,
 	}
 }
 
 function findCollision(ray, world) {
 
-	var shortestObject = null
-	var shortestResult = null
-	var shortestDistance = NaN
+	let shortestObject = null
+	let shortestResult = null
+	let shortestDistance = NaN
+	let shortestIndex = NaN
 
 	for(let i = 0; i < world.objects.length; i++) {
+
 		let obj = world.objects[i]
 		let result = obj.collide(ray)
 
@@ -46,6 +53,7 @@ function findCollision(ray, world) {
 				shortestObject = obj
 				shortestResult = result
 				shortestDistance = distance
+				shortestIndex = i
 			}
 		}
 	}
@@ -56,26 +64,12 @@ function findCollision(ray, world) {
 		return {
 			collided: true,
 			object: shortestObject,
+			objectIndex: shortestIndex,
 			intersection: shortestResult.intersection,
 			normal: shortestResult.normal,
 			distance: shortestDistance,
 		}
 	}
-}
-
-function lightContribution(light, L, N, V) {
-	//let lightSphereSurfaceArea = (4 * Math.PI * Math.pow(distanceFromLight, 2))
-	//let intensityAtIntersection = light.intensity / lightSphereSurfaceArea
-
-	let R = V.subtract(N.multiply(V.dot(N) * 2))
-
-	diffuseColor = light.color
-	specularColor = light.color
-
-	let specularFactor = Math.pow(Math.max(0.0, V.dot(R)), 300)
-	let diffuseFactor = Math.max(0.0, L.dot(N))
-
-	return specularColor.multiply(specularFactor).add(diffuseColor.multiply(diffuseFactor));
 }
 
 function traceRay(ray, world) {
@@ -100,18 +94,19 @@ function traceRay(ray, world) {
 		let distanceFromLight = lightRay.direction.len()
 		let lightCollision = findCollision(lightRay, world)
 
-		//No light obstructions!
-		if(!lightCollision.collided || (lightCollision.collided && lightCollision.distance >= distanceFromLight)) {
-			colorSum = colorSum.add(lightContribution(
-				light, 							//light
-				lightRay.direction.normalize(), //L
-				result.normal.normalize(),		//N
-				ray.direction.reverse().normalize()))		//V
+		//The light ray collided with something during its travel to the light
+		if(lightCollision.collided && lightCollision.distance < distanceFromLight) {
+			continue
 		}
+
+		colorSum = colorSum.add(light.getContribution(
+			lightRay.direction.normalize(), //L
+			result.normal.normalize(),		//N
+			ray.direction.normalize()))		//V
 	}
 
 	//console.log(colorSum.x)
-	return colorSum.divide(world.lights.length)
+	return colorSum.divide(world.lights.length / world.aperature)
 }
 
 // entry point when page is loaded
