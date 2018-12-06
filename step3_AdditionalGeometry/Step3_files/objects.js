@@ -57,4 +57,8 @@ Plane.prototype.collide = function(ray) {
 
 	let t = (this.origin - ray.start).dot(this.normal) / d
 	
+	return {
+		collided: true,
+		intersection: 
+	}
 }

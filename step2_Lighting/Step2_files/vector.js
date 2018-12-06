@@ -30,7 +30,7 @@ Vector.prototype.subtract = function(v) {
 }
 Vector.prototype.multiply = function(v) {
 	if(typeof v == "number") {
-		v = new Vector(this.x * v, this.y * v, this.z * v)
+		v = new Vector(v, v, v)
 	}
 	return new Vector(this.x * v.x, this.y * v.y, this.z * v.z)
 }
@@ -45,6 +45,9 @@ Vector.prototype.cross = function(v) {
 	let sy = this.z*v.x - this.x*v.z
 	let sz = this.x*v.y - this.y*v.x
 	return new Vector(sx, sy, sz)
+}
+Vector.prototype.reverse = function() {
+	return this.multiply(-1)
 }
 Vector.prototype.normalize = function() {
 	let len = this.len()
