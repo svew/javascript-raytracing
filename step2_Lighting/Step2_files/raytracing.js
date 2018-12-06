@@ -15,8 +15,10 @@ function getWorld() {
 	// Push lights
 	let lights = []
 	lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 20)) //Green
-	lights.push(new PointLight(new Vector(-8, 0.9, 1), new Vector(1, 0, 0), 20)) //Red
+	lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 20)) //Red
 	lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 20)) //Blue
+	//lights.push(new PointLight(new Vector(0, 0, 0), new Vector(1, 1, 1), 20)) //White
+
 
 	let ambientColor = new Vector(1,1,1)
 	let ambientStrength = 0.2
@@ -40,6 +42,7 @@ function findCollision(ray, world) {
 	let shortestDistance = NaN
 	let shortestIndex = NaN
 
+	//Find the closest collision point amongst all objects in the world
 	for(let i = 0; i < world.objects.length; i++) {
 
 		let obj = world.objects[i]
@@ -81,7 +84,7 @@ function traceRay(ray, world) {
 		return world.backgroundColor
 	}
 
-	let colorSum = world.ambientColor.multiply(world.ambientStrength)
+	let colorSum = result.object.color.multiply(world.ambientColor.multiply(world.ambientStrength))
 
 	// Search for lights which shine on this point
 	for(let i = 0; i < world.lights.length; i++) {
@@ -105,7 +108,6 @@ function traceRay(ray, world) {
 			ray.direction.normalize()))		//V
 	}
 
-	//console.log(colorSum.x)
 	return colorSum.divide(world.lights.length / world.aperature)
 }
 
@@ -130,10 +132,10 @@ function main() {
 
 			//Draw that pixel on the pixel data array
 			var index = ((CANVAS_HEIGHT - 1 - y) * CANVAS_WIDTH + x) * 4
-			imageData.data[index]     = color.x * 255 // R
-			imageData.data[index + 1] = color.y * 255// G
-			imageData.data[index + 2] = color.z * 255// B
-			imageData.data[index + 3] = 255 // A
+			imageData.data[index]     = color.x * 255	// R
+			imageData.data[index + 1] = color.y * 255	// G
+			imageData.data[index + 2] = color.z * 255	// B
+			imageData.data[index + 3] = 255 			// A
 		}
 	}
 
