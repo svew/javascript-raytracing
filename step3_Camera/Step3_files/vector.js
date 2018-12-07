@@ -7,15 +7,6 @@ var Vector = function(x, y, z) {
 	this.z = z
 }
 
-/*
-	start: Origin Point of the light ray.
-	direction: Vector direction of light ray.
-*/
-var Ray = function(start, direction) {
-	this.start = start
-	this.direction = direction
-}
-
 Vector.prototype.add = function(v) {
 	if(typeof v == "number") {
 		v = new Vector(v, v, v)
@@ -67,4 +58,17 @@ Vector.prototype.angle = function(v) {
 }
 Vector.prototype.string = function() {
 	return "<" + this.x + ", " + this.y + ", " + this.z + ">"
+}
+
+/*
+	start: Origin Point of the light ray.
+	direction: Vector direction of light ray.
+*/
+var Ray = function(start, direction) {
+	this.start = start
+	this.direction = direction
+}
+
+Ray.prototype.string = function() {
+	return "Ray {start: " + this.start.string() + ", direction: " + this.direction.string() + "}"
 }

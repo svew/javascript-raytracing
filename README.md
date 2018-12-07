@@ -7,7 +7,7 @@ This step demonstrates the most bare-bones raytracing engine: Shoot a ray from e
 ## Step 2: Lighting 
 At each point of intersection, we can trace a ray (shadow ray) to all the lights in  the world. If the path of the ray is unobstructed, then we contribute that light to the color of the pixel, proportional to the angle between the shadow ray and the surface normal (diffuse), and proportional to the difference of the shadow ray and the view vector to the normal (specular).
 
-## Step 3: Camera controls
+## Step 3: Camera controls 
 In this step, we create a camera capable of perspective views and moving at different angles. Because we may render the image more than once, we also split up the displaying of the image and the rendering of the image (An MVC sort of practice) into two different threads.
 
 ## Step 4: Additional Geometry

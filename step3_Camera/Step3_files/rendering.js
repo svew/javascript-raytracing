@@ -1,7 +1,4 @@
 
-var CANVAS_WIDTH = 800
-var CANVAS_HEIGHT = 800
-
 
 function findCollision(ray, world) {
 
@@ -49,6 +46,7 @@ function traceRay(ray, world) {
 
 	// If no collision occured, the ray flies into space
 	if(!result.collided) {
+
 		return world.backgroundColor
 	}
 
@@ -76,11 +74,33 @@ function traceRay(ray, world) {
 			ray.direction.normalize()))		//V
 	}
 
+	//console.log(colorSum.divide(world.lights.length / world.aperature).string())
+
 	return colorSum.divide(world.lights.length / world.aperature)
 }
 
 
 function render(world, imageData, width, height) {
 
+	for(let x = 0; x < width; x++) {
+		for(let y = 0; y < height; y++) {
+	
+			//Create the ray
+			let rx = (x / width) * 2 - 1
+			let ry = (y / height) * 2 - 1
+			let ray = world.camera.getRay(rx, ry)
+	
+			//Get the color from that ray
+			let color = traceRay(ray, world)
+	
+			//Draw that pixel on the pixel data array
+			
+			var index = (y * width + x) * 4
+			imageData.data[index]     = color.x * 255	// R
+			imageData.data[index + 1] = color.y * 255	// G
+			imageData.data[index + 2] = color.z * 255	// B
+			imageData.data[index + 3] = 255 		// A
+		}
+	}
 }
 

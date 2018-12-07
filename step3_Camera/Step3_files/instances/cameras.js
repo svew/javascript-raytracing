@@ -15,7 +15,7 @@ var PerspectiveCamera = function(direction, position, angle, width=2, height=2) 
 	this.height = height
 	this.direction = direction.normalize()
 	this.position = position
-	this.eyeOffset = Math.tan(angle * 180 / 3.1415926) * width / 2
+	this.eyeOffset = width / 2 / Math.tan(angle / 180 * Math.PI) 
 }
 
 OrthographicCamera.prototype.getRay = function(x, y) {
@@ -23,7 +23,7 @@ OrthographicCamera.prototype.getRay = function(x, y) {
 
 	let unit_x = new Vector(0, 1, 0).cross(this.direction).normalize()
 	let unit_y = unit_x.cross(this.direction).normalize()
-	let planeOffset = unit_x.multiply(x * width).add(unit_y.multiply(y * height))
+	let planeOffset = unit_x.multiply(x * this.width / 2).add(unit_y.multiply(y * this.height / 2))
 
 	return new Ray(
 		this.position.add(planeOffset),
@@ -36,7 +36,7 @@ PerspectiveCamera.prototype.getRay = function(x, y) {
 
 	let unit_x = new Vector(0, 1, 0).cross(this.direction).normalize()
 	let unit_y = unit_x.cross(this.direction).normalize()
-	let planeOffset = unit_x.multiply(x * width).add(unit_y.multiply(y * height))
+	let planeOffset = unit_x.multiply(x * this.width/2).add(unit_y.multiply(y * this.height/2))
 	let eyeLocation = this.direction.multiply(-this.eyeOffset)
 	let start = this.position.add(planeOffset)
 
