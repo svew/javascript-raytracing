@@ -7,7 +7,7 @@ function getWorld() {
 
 	// Push objects
 	let objects = []
-	objects.push(new Sphere(new Vector(-0.1, 0, 2.0), 0.5, new Vector(1, 0, 0))) //Large
+	objects.push(new Sphere(new Vector(-0.1, 0, 2.0), 0.5, new Vector(1, 1, 1))) //Large
 	objects.push(new Sphere(new Vector(-0.5, 0.5, 2.0), 0.2, new Vector(1, 1, 1))) //Small
 	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
 

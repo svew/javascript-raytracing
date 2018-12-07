@@ -1,5 +1,3 @@
-
-
 function findCollision(ray, world) {
 
 	let shortestObject = null
@@ -46,7 +44,6 @@ function traceRay(ray, world) {
 
 	// If no collision occured, the ray flies into space
 	if(!result.collided) {
-
 		return world.backgroundColor
 	}
 
