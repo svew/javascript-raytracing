@@ -3,15 +3,11 @@
 //to prevent artifacts such as the ones in resources/step2_WeirdArtifacts.png
 var EPSILON = 0.000001
 
-
-
 var Sphere = function(center, radius, color) {
 	this.center = center
 	this.radius = radius
 	this.color = color
 }
-
-
 
 Sphere.prototype.collide = function(ray) {
 
@@ -37,5 +33,13 @@ Sphere.prototype.collide = function(ray) {
 		intersection: q,
 		normal: q.subtract(this.center)
 	}
+	
+}
+
+var Triangle = function(vertices) {
+	this.vertices = vertices;
+}
+
+Triangle.prototype.collide = function(ray) {
 	
 }

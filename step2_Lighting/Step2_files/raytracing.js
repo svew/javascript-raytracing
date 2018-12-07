@@ -84,7 +84,7 @@ function traceRay(ray, world) {
 		return world.backgroundColor
 	}
 
-	let colorSum = result.object.color.multiply(world.ambientColor.multiply(world.ambientStrength))
+	let colorSum = world.ambientColor.multiply(world.ambientStrength)
 
 	// Search for lights which shine on this point
 	for(let i = 0; i < world.lights.length; i++) {
@@ -102,10 +102,15 @@ function traceRay(ray, world) {
 			continue
 		}
 
-		colorSum = colorSum.add(light.getContribution(
-			lightRay.direction.normalize(), //L
-			result.normal.normalize(),		//N
-			ray.direction.normalize()))		//V
+		colorSum = colorSum.add(
+			light.getContribution(
+				lightRay.direction.normalize(), //L
+				result.normal.normalize(),		//N
+				ray.direction.normalize()		//V
+			)
+		)		
+
+		colorSum = result.object.color.multiply(colorSum)
 	}
 
 	return colorSum.divide(world.lights.length / world.aperature)
