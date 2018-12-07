@@ -2,15 +2,26 @@
 Basic raytracing engine using Javascript
 
 ## Step 1: Ray tracing
+Added:
+	Raytracing at each pixel
+	Sphere object
+	Vector class
 This step demonstrates the most bare-bones raytracing engine: Shoot a ray from each pixel on the canvas into the world, find where it lands, and set the pixel's color to the color of the point it hits. To find where it lands, we must traverse all of the objects in the world, and find the object which intersects the nearest.
 
-## Step 2: Lighting 
+## Step 2: Lighting
+Added:
+	Blinn-Phong lighting for diffuse and specular shadow rays at intersections
+	SpotLight object
 At each point of intersection, we can trace a ray (shadow ray) to all the lights in  the world. If the path of the ray is unobstructed, then we contribute that light to the color of the pixel, proportional to the angle between the shadow ray and the surface normal (diffuse), and proportional to the difference of the shadow ray and the view vector to the normal (specular).
 
 ## Step 3: Camera controls 
-In this step, we create a camera capable of perspective views and moving at different angles. Because we may render the image more than once, we also split up the displaying of the image and the rendering of the image (An MVC sort of practice) into two different threads.
+Added:
+	PerspectiveCamera and OrthographicCamera object
+In this step, we create a camera capable of perspective views and moving at different angles.
 
 ## Step 4: Additional Geometry
+Added:
+	SpotLight now takes into account distance from light into lighting calculations
 So then how are objects represented? One of the simplest objects is the sphere, which was already implemented in step 1. With raytracing, all mathematical shapes can be represented at perfect resolution. This includes planes, which is the simplest for detecting collisions. We can then "draw" shapes on the plane to represent 2D objects, such as triangles. If the ray collides with the plane, and the point of intersection is inside the triangle or other geometric shape, the ray collides. With this, we can use the same meshes that we may have given to OpenGL to render.
 
 ## Step 5: Ray Bouncing
