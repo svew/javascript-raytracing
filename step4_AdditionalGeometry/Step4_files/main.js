@@ -7,9 +7,14 @@ function getWorld() {
 
 	// Push objects
 	let objects = []
-	objects.push(new Sphere(new Vector(0.2, 0, 2.0), 0.5, new Vector(1, 1, 0))) //Large
-	objects.push(new Sphere(new Vector(-0.4, 0.5, 2.0), 0.2, new Vector(0, 1, 1))) //Small
+	//objects.push(new Sphere(new Vector(0.2, 0, 2.0), 0.5, new Vector(1, 1, 0.5))) //Large
+	//objects.push(new Sphere(new Vector(-0.4, 0.5, 2.0), 0.2, new Vector(0, 1, 1))) //Small
 	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
+	objects.push(new Triangle([
+		new Vector(0, 0.5, 2.0), //Vertice 1
+		new Vector(-0.5, -0.5, 2.0), //Vertice 2
+		new Vector(0.5, 0.5, 2.0) //Vertice 3
+	]));
 
 
 	// Push lights
@@ -21,7 +26,7 @@ function getWorld() {
 
 	let ambientColor = new Vector(1,1,1)
 	let ambientStrength = 0.2
-	let backgroundColor = new Vector(0.1, 0.1, 0.1)
+	let backgroundColor = new Vector(0, 0, 0)
 	let aperature = 1.5 //How much light we collect from the world
 
 	let camera = new PerspectiveCamera(new Vector(0, 0, 1), new Vector(0, 0, 0), 0.01)

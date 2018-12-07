@@ -41,5 +41,9 @@ var Triangle = function(vertices) {
 }
 
 Triangle.prototype.collide = function(ray) {
-	
+	return {
+		collided: false,
+		intersection: null,
+		normal: null
+	}
 }
