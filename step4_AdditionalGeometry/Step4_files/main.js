@@ -7,17 +7,25 @@ function getWorld() {
 
 	// Push objects
 	let objects = []
-	//objects.push(new Sphere(new Vector(0.2, 0, 2.0), 0.5, new Vector(1, 1, 0.5))) //Large
-	//objects.push(new Sphere(new Vector(-0.4, 0.5, 2.0), 0.2, new Vector(0, 1, 1))) //Small
-	//objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
+	objects.push(new Sphere(new Vector(0.2, 0, 2.0), 0.5, new Vector(1, 1, 0.5))) //Large
+	objects.push(new Sphere(new Vector(-0.4, 0.5, 2.0), 0.2, new Vector(0, 1, 1))) //Small
+	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
 	width = 1
 	height = 1
 
+	
 	objects.push(new Triangle([
+<<<<<<< HEAD
 		new Vector(0, 0.2, 0.9), //Vertice 1
 		new Vector(-0.2, -0.2, 1), //Vertice 2
 		new Vector(0.2, -0.2, 1), //Vertice 3
 	], new Vector(1, 0, 1)))
+=======
+		new Vector(-0.7, 0.4, 4), //Vertice 1
+		new Vector(-0.8, 0, 4), //Vertice 2
+		new Vector(-0.6, 0, 4), //Vertice 3
+	], new Vector(1, 1, 0)))
+>>>>>>> 58d2c6c8fff6418265d8e2efd2cc6ed3aea1f905
 
 	/*
 	let rectangle = new Rectangle([
@@ -28,8 +36,10 @@ function getWorld() {
 	], new Vector(1, 1, 1))
 	for(let i = 0; i < 2; i++) {
 		objects.push(rectangle.triangles[i])
-	}
-	*/
+	}*/
+	
+	
+	/*
 	let cuboid = new Cuboid([
 		new Vector(-0.2, 0.2, 2.0), // TOP LEFT -Z
 		new Vector(-0.2, -0.2, 2.0), // BOTTOM LEFT -Z
@@ -44,15 +54,19 @@ function getWorld() {
 	for(let i = 0; i < cuboid.rects.length; i++) {
 		objects.push(cuboid.rects[i].triangles[0])
 		objects.push(cuboid.rects[i].triangles[1])
-	}
+	}*/
+	
+
+	//cuboid.rotate(10, 1, 0, 0)
+	
 
 	// Push lights
 	let lights = []
-	//lights.push(new PointLight(new Vector(0, 7, 2), COLORS.GREEN, 500)) //Green
-	//lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 300)) //Red
-	//lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 600)) //Blue
-	//lights.push(new PointLight(new Vector(-1, -1, -1), COLORS.WHITE, 200))
-	lights.push(new PointLight(new Vector(0, 0, 0), COLORS.WHITE, 30));
+	lights.push(new PointLight(new Vector(0, 7, 2), COLORS.GREEN, 500)) //Green
+	lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 300)) //Red
+	lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 600)) //Blue
+	lights.push(new PointLight(new Vector(-1, -1, -1), COLORS.WHITE, 200))
+	lights.push(new PointLight(new Vector(-0.6, 0.1, 0), COLORS.WHITE, 20));
 
 	let ambientColor = new Vector(1,1,1)
 	let ambientStrength = 0.2
