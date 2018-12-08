@@ -18,8 +18,6 @@ var SunLight = function(direction, color, intensity) {
 	this.intensity = intensity
 }
 
-
-
 PointLight.prototype.getContribution = function(L, N, V) {
 	let lightSphereSurfaceArea = (4 * Math.PI * L.dot(L))
 
@@ -32,7 +30,7 @@ PointLight.prototype.getContribution = function(L, N, V) {
 	diffuseColor = this.color.multiply(this.intensity / lightSphereSurfaceArea)
 	specularColor = this.color.multiply(this.intensity / lightSphereSurfaceArea)
 
-	let specularFactor = Math.pow(Math.max(0.0, V.dot(R)), 100)
+	let specularFactor = Math.pow(Math.max(0.0, L.dot(R)), 50)
 	let diffuseFactor = Math.max(0.0, L.dot(N))
 
 	return specularColor.multiply(specularFactor).add(diffuseColor.multiply(diffuseFactor));

@@ -1,5 +1,3 @@
-
-
 function findCollision(ray, world) {
 
 	let shortestObject = null
@@ -46,11 +44,10 @@ function traceRay(ray, world) {
 
 	// If no collision occured, the ray flies into space
 	if(!result.collided) {
-
 		return world.backgroundColor
 	}
 
-	let colorSum = result.object.color.multiply(world.ambientColor.multiply(world.ambientStrength))
+	let colorSum = world.ambientColor.multiply(world.ambientStrength)
 
 	// Search for lights which shine on this point
 	for(let i = 0; i < world.lights.length; i++) {
@@ -68,10 +65,15 @@ function traceRay(ray, world) {
 			continue
 		}
 
-		colorSum = colorSum.add(light.getContribution(
-			lightRay.direction, //L
-			result.normal,		//N
-			ray.direction))		//V
+		colorSum = colorSum.add(
+			light.getContribution(
+				lightRay.direction, //L
+				result.normal,		//N
+				ray.direction 		//V
+			)		
+		)
+
+		colorSum = result.object.color.multiply(colorSum)
 	}
 
 	//console.log(colorSum.divide(world.lights.length / world.aperature).string())
