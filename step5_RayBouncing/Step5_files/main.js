@@ -43,7 +43,7 @@ function main() {
 	var imageData = context.getImageData(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
 	var world = getWorld()
 	
-	render(world, imageData, 800, 800)
+	render(world, imageData, 800, 800, MAX_RAY_BOUNCES)
 
 	context.putImageData(imageData, 0, 0)
 	console.log("New Image data posted")

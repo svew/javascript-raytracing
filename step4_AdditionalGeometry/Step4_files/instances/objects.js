@@ -81,3 +81,45 @@ Triangle.prototype.collide = function(ray) {
 		normal: normal
 	}
 }
+
+var Rectangle = function(vertices, color) {
+	let v0 = vertices[0]
+	let v1 = vertices[1]
+	let v2 = vertices[2]
+	let v3 = vertices[3]
+
+	this.triangles = []
+	this.triangles[0] = new Triangle([v0, v1, v2], color)
+	this.triangles[1] = new Triangle([v3, v2, v1], color) 
+}
+
+var Cuboid = function(vertices, color) {
+	let v0 = vertices[0]
+	let v1 = vertices[1]
+	let v2 = vertices[2]
+	let v3 = vertices[3]
+	let v4 = vertices[4]
+	let v5 = vertices[5]
+	let v6 = vertices[6]
+	let v7 = vertices[7]
+
+	this.rects = []
+	this.rects[0] = new Rectangle([
+		v0, v1, v2, v3 //FRONT
+	], color)
+	this.rects[1] = new Rectangle([
+		v4, v5, v6, v7 //BACK
+	], color)
+	this.rects[2] = new Rectangle([
+		v0, v2, v4, v6 //TOP
+	], color)
+	this.rects[3] = new Rectangle([
+		v1, v3, v5, v7 //BOTTOM
+	], color)
+	this.rects[4] = new Rectangle([
+		v0, v1, v4, v5 //LEFT
+	], color)
+	this.rects[5] = new Rectangle([
+		v2, v3, v6, v7 //RIGHT
+	], color)
+}

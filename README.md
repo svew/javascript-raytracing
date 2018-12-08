@@ -22,7 +22,7 @@ In this step, we create a camera capable of perspective views and moving at diff
 ## Step 4: Additional Geometry
 Added:
 	SpotLight now takes into account distance from light into lighting calculations
-So then how are objects represented? One of the simplest objects is the sphere, which was already implemented in step 1. With raytracing, all mathematical shapes can be represented at perfect resolution. This includes planes, which is the simplest for detecting collisions. We can then "draw" shapes on the plane to represent 2D objects, such as triangles. If the ray collides with the plane, and the point of intersection is inside the triangle or other geometric shape, the ray collides. With this, we can use the same meshes that we may have given to OpenGL to render.
+So then how are objects represented? One of the simplest objects is the sphere, which was already implemented in step 1. With raytracing, all mathematical shapes can be represented at perfect resolution. This includes planes, which is the simplest for detecting collisions. We can also create triangles, only three vertices, to make any other shape we want
 
 ## Step 5: Ray Bouncing
 For each ray collision, we can shoot another ray out from that intersection point at a reflective angle from the normal. Each of these rays will calculate the light from shadow rays at the surfaces they hit, and will contribute to the color of the pixel. Each successive bounce will only contribute a fraction of the last bounce. We must also put a limit on the number of bounces allowed, or the ray may bounce forever.

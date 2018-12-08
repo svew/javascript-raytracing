@@ -41,7 +41,7 @@ function findCollision(ray, world) {
 	}
 }
 
-function traceRay(ray, world) {
+function traceRay(ray, world, bouncesLeft) {
 
 	let result = findCollision(ray, world)
 
