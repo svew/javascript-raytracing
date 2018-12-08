@@ -123,3 +123,45 @@ var Cuboid = function(vertices, color) {
 		v2, v3, v6, v7 //RIGHT
 	], color)
 }
+
+Cuboid.prototype.rotate = function(angle, x, y ,z) {
+	for(let i = 0; i < 6; i++) {
+		let oldX, oldY, oldZ
+		if(x && !y && !z) {
+			for(let j = 0; j < 2; j++) {
+				for(let k = 0; k < 3; k++) {
+					oldX1 = this.rects[i].triangles[j].vertices[k].x
+					oldY1 = this.rects[i].triangles[j].vertices[k].y
+					oldZ1 = this.rects[i].triangles[j].vertices[k].z
+					this.rects[i].triangles[j].vertices[k].x = oldX1
+					this.rects[i].triangles[j].vertices[k].y = (oldY1 * Math.cos(angle)) - (oldZ1 * Math.sin(angle))
+					this.rects[i].triangles[j].vertices[k].z = (oldY1 * Math.sin(angle)) + (oldZ1 * Math.cos(angle))
+				}
+			}
+		} else if(y && !z) {
+			for(let j = 0; j < 2; j++) {
+				for(let k = 0; k < 3; k++) {
+					oldX = this.rects[i].triangles[j].vertices[k].x
+					oldY = this.rects[i].triangles[j].vertices[k].y
+					oldZ = this.rects[i].triangles[j].vertices[k].z
+					this.rects[i].triangles[j].vertices[k].x = (oldZ * Math.sin(angle)) + (oldX * Math.cos(angle))
+					this.rects[i].triangles[j].vertices[k].y = oldY
+					this.rects[i].triangles[j].vertices[k].z = (oldZ * Math.cos(angle)) - (oldX * Math.sin(angle))
+				}
+			}
+		} else if(z) {
+			for(let j = 0; j < 2; j++) {
+				for(let k = 0; k < 3; k++) {
+					oldX = this.rects[i].triangles[j].vertices[k].x
+					oldY = this.rects[i].triangles[j].vertices[k].y
+					oldZ = this.rects[i].triangles[j].vertices[k].z
+					this.rects[i].triangles[j].vertices[k].x = (oldX * Math.cos(angle)) - (oldY * Math.sin(angle))
+					this.rects[i].triangles[j].vertices[k].y = (oldX * Math.sin(angle)) + (oldY * Math.cos(angle))  
+					this.rects[i].triangles[j].vertices[k].z = oldZ
+				}
+			}
+		} else {
+			console.log("Choose one!")
+		}
+	}
+}
