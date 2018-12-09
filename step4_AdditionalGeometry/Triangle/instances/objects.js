@@ -2,6 +2,7 @@
 //Because of floating point algebra, we allow some tolerance for ray intersection
 //to prevent artifacts such as the ones in resources/step2_WeirdArtifacts.png
 var EPSILON = 0.000001
+var kEPSILON = 0.00033546262
 
 var Sphere = function(center, radius, color) {
 	this.center = center
@@ -45,40 +46,51 @@ Triangle.prototype.collide = function(ray) {
 	let v0 = this.vertices[0]
 	let v1 = this.vertices[1]
 	let v2 = this.vertices[2]
+	let dir = ray.direction.normalize()
 
 	let v0v1 = v1.subtract(v0)
 	let v0v2 = v2.subtract(v0)
-	let normal = v0v1.cross(v0v2) //Normal Vector
+	let N = v0v1.cross(v0v2).normalize()
 
-	let b = normal.dot(ray.direction.normalize())
-	let t = normal.dot(ray.start) + normal.dot(v0)
+	let NDotrayDir = N.dot(dir)
+	if(Math.abs(NDotrayDir) < kEPSILON) {
+		return {collided: false, intersection: null, normal: null}
+	}
 
-	let intersection = ray.direction.normalize().multiply(t).add(ray.start)
+	let d = N.dot(v0)
+	t = (N.dot(ray.start) + d)/NDotrayDir
 
+	if(t < 0) {
+		return {collided:false, intersection:null, normal: null}
+	}
+
+	let P = dir.multiply(t).add(ray.start)
 	let edge0 = v1.subtract(v0)
-	let vp0 = intersection.subtract(v0)
-	let C0 = edge0.cross(vp0)
+	let vp0 = P.subtract(v0)
+	let C = edge0.cross(vp0)
+
+	if(N.dot(C) < 0) {
+		return {collided:false, intersection:null, normal:null}
+	}
 
 	let edge1 = v2.subtract(v1)
-	let vp1 = intersection.subtract(v1)
-	let C1 = edge1.cross(vp1)
+	let vp1 = P.subtract(v1)
+	C = edge1.cross(vp1)
+	if(N.dot(C) < 0) {
+		return {collided:false, intersection:null, normal:null}
+	}
 
 	let edge2 = v0.subtract(v2)
-	let vp2 = intersection.subtract(v2)
-	let C2 = edge2.cross(vp2)
-
-	if(b < EPSILON || t < 0 || normal.dot(C0) < 0 || normal.dot(C1) < 0 || normal.dot(C2) < 0) {
-		return {
-			collided: false,
-			intersection: null,
-			normal: null
-		}
+	let vp2 = P.subtract(v2)
+	C = edge2.cross(vp2)
+	if(N.dot(C) < 0) {
+		return {collided:false, intersection:null, normal:null}
 	}
 
 	return {
-		collided:true,
-		intersection: intersection,
-		normal: normal
+		collided: true,
+		intersection: P,
+		normal: N
 	}
 }
 
