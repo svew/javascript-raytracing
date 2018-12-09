@@ -165,3 +165,13 @@ Cuboid.prototype.rotate = function(angle, x, y ,z) {
 		}
 	}
 }
+
+var Plane = function(origin, normal, color) {
+	this.origin = origin
+	this.normal = normal
+	this.color = color
+}
+
+Plane.prototype.collide = function(ray) {
+	
+}

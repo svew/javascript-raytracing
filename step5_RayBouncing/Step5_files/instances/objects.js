@@ -5,13 +5,11 @@ var EPSILON = 0.000001
 
 
 
-var Sphere = function(center, radius, color) {
+var Sphere = function(center, radius, material) {
 	this.center = center
 	this.radius = radius
-	this.color = color
+	this.material = material
 }
-
-
 
 Sphere.prototype.collide = function(ray) {
 
@@ -38,4 +36,30 @@ Sphere.prototype.collide = function(ray) {
 		normal: q.subtract(this.center)
 	}
 	
+}
+
+
+
+var Plane = function(origin, normal, material) {
+	this.origin = origin
+	this.normal = normal.normalize()
+	this.material = material
+}
+
+Plane.prototype.collide = function(ray) {
+	
+	let d = this.normal.dot(ray.direction)
+	if(Math.abs(d) > EPSILON) {
+		let t = (this.origin.subtract(ray.start)).dot(this.normal) / d
+		if(t > EPSILON) {
+			let I = ray.direction.multiply(t).add(ray.start)
+			return {
+				collided: true,
+				intersection: I,
+				normal: this.normal,
+			}
+		}
+	}
+
+	return { collided: false }
 }

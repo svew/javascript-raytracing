@@ -15,17 +15,10 @@ function getWorld() {
 
 	
 	objects.push(new Triangle([
-<<<<<<< HEAD
-		new Vector(0, 0.2, 0.9), //Vertice 1
-		new Vector(-0.2, -0.2, 1), //Vertice 2
-		new Vector(0.2, -0.2, 1), //Vertice 3
-	], new Vector(1, 0, 1)))
-=======
 		new Vector(-0.7, 0.4, 4), //Vertice 1
 		new Vector(-0.8, 0, 4), //Vertice 2
 		new Vector(-0.6, 0, 4), //Vertice 3
 	], new Vector(1, 1, 0)))
->>>>>>> 58d2c6c8fff6418265d8e2efd2cc6ed3aea1f905
 
 	/*
 	let rectangle = new Rectangle([

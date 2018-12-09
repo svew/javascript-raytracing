@@ -2,35 +2,42 @@
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 800
 
-//Get all of the objects that exist in the world
+// Get all of the objects that exist in the world
 function getWorld() {
+
+	let sphereMaterial = new Material(0.2, 1.0, 0.2, COLORS.RED) 
+	let groundMaterial = new Material(0.5, 0.9, 0.7, COLORS.WHITE)
+	let mirrorMaterial = new Material(0.9, 0.0, 0.3, COLORS.WHITE)
 
 	// Push objects
 	let objects = []
-	objects.push(new Sphere(new Vector(0.0, 0, 2.0), 0.5, new Vector(1, 0, 0))) //Large
-	objects.push(new Sphere(new Vector(-0.5, 0.5, 2.0), 0.2, new Vector(1, 1, 1))) //Small
-	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
+	objects.push(new Sphere(new Vector(0.0, 0, 2.0), 0.5, mirrorMaterial)) //Large
+	objects.push(new Sphere(new Vector(-0.5, 0.5, 2.0), 0.2, sphereMaterial)) //Small
+	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, sphereMaterial)) //Medium
+
+	objects.push(new Plane(new Vector(0, -1.0, 0), new Vector(0, 1, 0), groundMaterial))
+	//objects.push(new Plane(new Vector(0, 0, 3.0), new Vector(0, 0, 1), groundMaterial))
 
 
 	// Push lights
 	let lights = []
-	lights.push(new PointLight(new Vector(0, 7, 2), COLORS.GREEN, 300)) //Green
-	lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 100)) //Red
-	lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 200)) //Blue
+
+	// SUN!
+	lights.push(new SunLight(new Vector(-1, -5, 0.5), COLORS.WHITE, 3))
+
+	//lights.push(new PointLight(new Vector(0, 7, 2), COLORS.GREEN, 300)) //Green
+	//lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 100)) //Red
+	//lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 200)) //Blue
 	//lights.push(new PointLight(new Vector(-1, -1, -1), COLORS.WHITE, 300))
 
-	let ambientColor = new Vector(1,1,1)
-	let ambientStrength = 0.2
-	let backgroundColor = new Vector(0.1, 0.1, 0.1)
-	let aperature = 5.0 //How much light we collect from the world
+	let backgroundColor = new Vector(0.3, 0.3, 0.7)
+	let aperature = 1.0 // How much light we collect from the world
 
-	let camera = new PerspectiveCamera(new Vector(0, 0, 1), new Vector(0, 0, 0), 0.01)
+	let camera = new PerspectiveCamera(new Vector(0, -0.3, 1), new Vector(0, 1, -2), 30)
 
 	return {
 		objects: objects, 
 		lights: lights,
-		ambientColor: ambientColor,
-		ambientStrength: ambientStrength,
 		backgroundColor: backgroundColor,
 		aperature: aperature,
 		camera: camera,
@@ -43,9 +50,11 @@ function main() {
 	var imageData = context.getImageData(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
 	var world = getWorld()
 	
-	render(world, imageData, 800, 800, MAX_RAY_BOUNCES)
+	render(world, imageData, CANVAS_WIDTH, CANVAS_HEIGHT, MAX_RAY_BOUNCES)
 
 	context.putImageData(imageData, 0, 0)
 	console.log("New Image data posted")
+
+	console.log(new Vector(0, 0, 1).rotateX(10).string())
 }
 

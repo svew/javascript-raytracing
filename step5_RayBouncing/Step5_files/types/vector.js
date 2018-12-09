@@ -59,6 +59,29 @@ Vector.prototype.angle = function(v) {
 Vector.prototype.string = function() {
 	return "<" + this.x + ", " + this.y + ", " + this.z + ">"
 }
+Vector.prototype.rotateX = function(degrees) {
+	let rads = degrees / 180 * Math.PI
+	let sx = this.x
+	let sy = this.y * Math.cos(rads) - this.z * Math.sin(rads)
+	let sz = this.y * Math.sin(rads) + this.z * Math.cos(rads)
+	return new Vector(sx, sy, sz)
+}
+Vector.prototype.rotateY = function(degrees) {
+	let rads = degrees / 180 * Math.PI
+	let sx = this.x * Math.cos(rads) + this.z * Math.sin(rads)
+	let sy = this.y
+	let sz = this.z * Math.cos(rads) - this.x * Math.sin(rads)
+	return new Vector(sx, sy, sz)
+}
+Vector.prototype.rotateZ = function(degrees) {
+	let rads = degrees / 180 * Math.PI
+	let sx = this.x * Math.cos(rads) - this.y * Math.sin(rads)
+	let sy = this.x * Math.sin(rads) + this.y * Math.cos(rads)
+	let sz = this.z
+	return new Vector(sx, sy, sz)
+}
+
+
 
 /*
 	start: Origin Point of the light ray.

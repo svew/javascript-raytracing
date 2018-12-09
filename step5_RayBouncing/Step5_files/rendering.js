@@ -1,11 +1,12 @@
 
-MAX_RAY_BOUNCES = 5
+MAX_RAY_BOUNCES = 4
+
 
 function findCollision(ray, world) {
 
 	let shortestObject = null
 	let shortestResult = null
-	let shortestDistance = NaN
+	let shortestDistance = Infinity
 	let shortestIndex = NaN
 
 	//Find the closest collision point amongst all objects in the world
@@ -41,45 +42,68 @@ function findCollision(ray, world) {
 	}
 }
 
-function traceRay(ray, world, bouncesLeft) {
+function calcLightContribution(V, N, L, material, lightAtPoint) {
 
-	let result = findCollision(ray, world)
+	V = V.normalize()
+	N = N.normalize()
+	L = L.normalize()
 
-	// If no collision occured, the ray flies into space
-	if(!result.collided) {
+	let reflectedLight = lightAtPoint.multiply(material.reflectivity)
+	let absorbedLight = lightAtPoint.multiply(1 - material.reflectivity)
+	let emittedLight = absorbedLight.multiply(material.color).multiply(1 - material.absorbtion)			
+	let diffuseFactor = Math.max(0.0, L.reverse().dot(N))
+	let diffuseLight = emittedLight.multiply(diffuseFactor)
+	let Rl = N.multiply(2 * N.dot(L)).subtract(L)
+	let specularFactor = Math.pow(Math.max(0.0, V.dot(Rl)), 10 / (material.smoothness + 0.1))
+	let specularLight = reflectedLight.multiply(specularFactor)
 
-		return world.backgroundColor
-	}
-
-	let colorSum = result.object.color.multiply(world.ambientColor.multiply(world.ambientStrength))
-
-	// Search for lights which shine on this point
-	for(let i = 0; i < world.lights.length; i++) {
-
-		let light = world.lights[i]
-		let lightRay = new Ray(
-			result.intersection,
-			light.position.subtract(result.intersection)
-		);
-		let distanceFromLight = lightRay.direction.len()
-		let lightCollision = findCollision(lightRay, world)
-
-		//The light ray collided with something during its travel to the light
-		if(lightCollision.collided && lightCollision.distance < distanceFromLight) {
-			continue
-		}
-
-		colorSum = colorSum.add(light.getContribution(
-			lightRay.direction, //L
-			result.normal,		//N
-			ray.direction))		//V
-	}
-
-	//console.log(colorSum.divide(world.lights.length / world.aperature).string())
-
-	return colorSum.divide(world.lights.length / world.aperature)
+	return diffuseLight.add(specularLight)
 }
 
+function traceRay(ray, world, bouncesLeft) {
+
+	if(bouncesLeft <= 0) { return world.backgroundColor }
+	let result = findCollision(ray, world)
+	if(!result.collided) { return world.backgroundColor }
+
+	let lightSum = new Vector(0, 0, 0)
+	let material = result.object.material
+	let V = ray.direction.normalize()
+	let N = result.normal.normalize()
+	let I = result.intersection
+
+
+	// Add the light contributions of world lights which land on this intersection
+	for(let i = 0; i < world.lights.length; i++) {
+
+		let light = world.lights[i] 
+		let L = light.getDirection(I) //From light to surface
+		let shadowRay = new Ray(I, L.reverse());
+		let shadowCollision = findCollision(shadowRay, world)
+
+		// If the light was able to reach the intersection point
+		if( !( shadowCollision.collided && shadowCollision.distance < light.getDistance(I) ) ) {
+
+			let lightAtPoint = light.color.multiply(light.getIntensity(I))
+			lightSum = lightSum.add(calcLightContribution(V, N, L, material, lightAtPoint))
+
+		}
+	}
+
+	// Add the light contribution of the reflected light which lands on this intersection
+	if(material.reflectivity > 0) {
+		let R = V.subtract(N.multiply(2 * N.dot(V))) //Reflected across V, starting at I
+		let reflectedRay = new Ray(I, R)
+		let reflectedLight = traceRay(reflectedRay, world, bouncesLeft - 1)
+		
+		lightSum = lightSum.add(calcLightContribution(V, N, R.reverse(), material, reflectedLight)
+			.multiply(material.reflectivity))
+	}
+
+	let lightSensitivity = world.lights.length / world.aperature
+
+	return lightSum.divide(lightSensitivity)
+}
 
 function render(world, imageData, width, height) {
 
@@ -92,15 +116,15 @@ function render(world, imageData, width, height) {
 			let ray = world.camera.getRay(rx, ry)
 	
 			//Get the color from that ray
-			let color = traceRay(ray, world, MAX_RAY_BOUNCES)
+			color = traceRay(ray, world, MAX_RAY_BOUNCES)
 	
 			//Draw that pixel on the pixel data array
-			
 			var index = (y * width + x) * 4
 			imageData.data[index]     = color.x * 255	// R
 			imageData.data[index + 1] = color.y * 255	// G
 			imageData.data[index + 2] = color.z * 255	// B
 			imageData.data[index + 3] = 255 		// A
+			
 		}
 	}
 }

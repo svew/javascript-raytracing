@@ -14,10 +14,10 @@ function getWorld() {
 
 	// Push lights
 	let lights = []
-	lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 20)) //Green
-	lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 20)) //Red
-	lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 20)) //Blue
-	//lights.push(new PointLight(new Vector(0, 0, 0), new Vector(1, 1, 1), 20)) //White
+	//lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 20)) //Green
+	//lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 20)) //Red
+	//lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 20)) //Blue
+	lights.push(new PointLight(new Vector(0, 0, 0), new Vector(0, 0, 0), 20)) //White
 
 
 	let ambientColor = new Vector(1,1,1)
