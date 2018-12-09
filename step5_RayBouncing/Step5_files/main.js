@@ -2,6 +2,10 @@
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 800
 
+var cameraX = 0
+var cameraY = 0
+var cameraZ = 1
+
 // Get all of the objects that exist in the world
 function getWorld() {
 
@@ -33,7 +37,7 @@ function getWorld() {
 	let backgroundColor = new Vector(0.3, 0.3, 0.7)
 	let aperature = 1.0 // How much light we collect from the world
 
-	let camera = new PerspectiveCamera(new Vector(0, -0.3, 1), new Vector(0, 1, -2), 30)
+	let camera = new PerspectiveCamera(new Vector(cameraX, cameraY, cameraZ), new Vector(0, 1, -2), 30)
 
 	return {
 		objects: objects, 
@@ -49,12 +53,53 @@ function main() {
 	var context = canvas.getContext('2d', {antialias: false, depth: false})
 	var imageData = context.getImageData(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
 	var world = getWorld()
-	
 	render(world, imageData, CANVAS_WIDTH, CANVAS_HEIGHT, MAX_RAY_BOUNCES)
-
 	context.putImageData(imageData, 0, 0)
 	console.log("New Image data posted")
 
 	console.log(new Vector(0, 0, 1).rotateX(10).string())
+	window.onkeypress = handleKeyPress
+}
+
+function handleKeyPress(event) {
+	var ch = getChar(event)
+	switch(ch) {
+		case 'x':
+			cameraX += 0.05
+			main()
+			break
+		case 'X':
+			cameraX -= 0.05
+			main()
+			break
+		case 'y':
+			cameraY += 0.05
+			main()
+			break
+		case 'Y':
+			cameraY -= 0.05
+			main()
+			break
+		case 'z':
+			cameraZ += 0.5
+			main()
+			break
+		case 'Z':
+			cameraZ -= 0.5
+			main()
+			break
+		default:
+			return
+	}
+}
+
+function getChar(event) {
+	if(event.which == null) {
+		return String.fromCharCode(event.keyCode)
+	} else if(event.which!=0 && event.charCode!=0) {
+		return String.fromCharCode(event.which)
+	} else {
+		return null
+	}
 }
 
