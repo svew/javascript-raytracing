@@ -7,23 +7,23 @@ function getWorld() {
 
 	// Push objects
 	let objects = []
-	objects.push(new Sphere(new Vector(-0.1, 0, 2.0), 0.5, new Vector(1, 0, 0))) //Large
+	objects.push(new Sphere(new Vector(-0.1, 0, 2.0), 0.5, new Vector(1, 1, 1))) //Large
 	objects.push(new Sphere(new Vector(-0.5, 0.5, 2.0), 0.2, new Vector(1, 1, 1))) //Small
 	objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
 
 
 	// Push lights
 	let lights = []
-	lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 200)) //Green
-	lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 200)) //Red
-	lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 200)) //Blue
-	lights.push(new PointLight(new Vector(0, 0, 0), new Vector(0, 0, 0), 100)) //White
+	lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 500)) //Green
+	lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 600)) //Red
+	lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 400)) //Blue
+	lights.push(new PointLight(new Vector(0, 0, 0), new Vector(0, 0, 0), 500)) //White
 
 
 	let ambientColor = new Vector(1,1,1)
-	let ambientStrength = 0.2
-	let backgroundColor = new Vector(0.1,0)
-	let aperature = 2.0 //How much light we collect from the world
+	let ambientStrength = 0.3
+	let backgroundColor = new Vector(0,0,0)
+	let aperature = 2.5 //How much light we collect from the world
 
 	return {
 		objects: objects,

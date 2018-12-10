@@ -72,32 +72,18 @@ Triangle.prototype.collide = function(ray) {
 	let v0 = this.vertices[0]
 	let v1 = this.vertices[1]
 	let v2 = this.vertices[2]
-
 	let edge1 = v1.subtract(v0)
 	let edge2 = v2.subtract(v0)
 	let h = ray.direction.normalize().cross(edge2)
 	let a = edge1.dot(h)
-
-	if(a > -EPSILON && a < EPSILON) {
-		return {collided:false, intersection: null, normal: null}
-	}
-
 	let f = 1.0/a
 	let s = ray.start.subtract(v0)
 	let u = f * (s.dot(h))
-	if(u < 0.0 || u > 1.0) {
-		return {
-			collided: false, intersection: null, normal: null
-		}
-	}
-
 	let q = s.cross(edge1)
 	let v = f * ray.direction.normalize().dot(q)
 
-	if(v < 0.0 || u + v > 1.0) {
-		return {
-			collided: false, intersection: null, normal: null
-		}
+	if(a > -EPSILON && a < EPSILON || u < 0.0 || u > 1.0 || v < 0.0 || u + v > 1.0) {
+		return {collided:false, intersection: null, normal: null}
 	}
 
 	let t = f * edge2.dot(q)

@@ -34,7 +34,7 @@ Sphere.prototype.collide = function(ray) {
 	if(c > -EPSILON && b > -EPSILON)  {
 		return { collided: false, intersection: null, normal: null } // Origin outside of sphere, and ray faces away
 	}
-	
+
 	let discriminant = b*b - c
 	if(discriminant < 0.0) {
 		return { collided: false, intersection: null, normal: null } // Ray misses sphere
@@ -44,12 +44,12 @@ Sphere.prototype.collide = function(ray) {
 	if(t < 0.0) t = 0.0
 	let q = ray.direction.multiply(t).add(ray.start) // The point of intersection
 
-	return { 
-		collided: true, 
+	return {
+		collided: true,
 		intersection: q,
 		normal: q.subtract(this.center)
 	}
-	
+
 }
 
 PointLight.prototype.getContribution = function(L, N, V) {
@@ -60,19 +60,19 @@ PointLight.prototype.getContribution = function(L, N, V) {
 	N = N.normalize()
 	V = V.normalize()
 
-	//let R = N.multiply(2 * (N.dot(L))).subtract(L)
-	let H = V.add(L).divide(V.add(L).len())
+	let R = N.multiply(2 * (N.dot(L))).subtract(L)
+	//let H = V.add(L).divide(V.add(L).len())
 
 	diffuseColor = this.color
 	specularColor = this.color
 
-	//let specularFactor = Math.pow(Math.max(0.0, L.dot(R)), 100)
-	let specularFactor = Math.pow(Math.max(0.0, N.dot(H)), 1)
+	let specularFactor = Math.pow(Math.max(0.0, L.dot(R)), 100)
+	//let specularFactor = Math.pow(Math.max(0.0, N.dot(H)), 400)
 	let diffuseFactor = Math.max(0.0, L.dot(N))
 
 	let specularComponent = specularColor.multiply(specularFactor)
 	let diffuseComponent = diffuseColor.multiply(diffuseFactor)
 
-	return specularComponent
+	return specularComponent.add(diffuseComponent)
 	//return this.color
 }
