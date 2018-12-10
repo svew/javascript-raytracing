@@ -19,7 +19,7 @@ therefore be absorbed into the material.
 
 Reflectivity: The percent of light reflected
 
-Consider the light reflected. It's important to know how the light will 
+Consider the light reflected. It's important to know how the light will
 bounce off of the surface. If a surface is completely smooth, the
 reflected light will bounce off exactly as expected. If the surface
 is very bumpy, the reflected light will bounce off at different angles.

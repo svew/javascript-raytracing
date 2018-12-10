@@ -9,7 +9,7 @@ var cameraZ = 1
 // Get all of the objects that exist in the world
 function getWorld() {
 
-	let sphereMaterial = new Material(0.2, 1.0, 0.2, COLORS.RED) 
+	let sphereMaterial = new Material(0.2, 1.0, 0.2, COLORS.RED)
 	let groundMaterial = new Material(0.5, 0.9, 0.7, COLORS.WHITE)
 	let mirrorMaterial = new Material(0.9, 0.0, 0.3, COLORS.WHITE)
 
@@ -23,6 +23,31 @@ function getWorld() {
 	//objects.push(new Plane(new Vector(0, 0, 3.0), new Vector(0, 0, 1), groundMaterial))
 
 
+	let cuboid = new Cuboid([
+		//LEFT POINTS
+		new Vector(-2, 0.2, 3.0), // TOP LEFT -Z
+		new Vector(-2, -0.2, 3.0), // BOTTOM LEFT -Z
+
+		//FRONT POINTS
+		new Vector(-1.3, 0.25, 2.0), // TOP RIGHT Z
+		new Vector(-1.3, -0.1, 2.0), // BOTTOM RIGHT -Z
+
+		//BACK POINTS
+		new Vector(-1.3, 0.2, 4.0), // TOP LEFT Z
+		new Vector(-1.3, -0.1, 4.0), // BOTTOM LEFT Z
+
+		//RIGHT POINTS
+		new Vector(-0.7, 0.2, 3.0), // TOP RIGHT Z
+		new Vector(-0.7, -0.2, 3.0) // BOTTOM RIGHT -Z
+
+	], new Vector(1, 1, 1), sphereMaterial)
+
+	//Make cube
+	for(let i = 0; i < cuboid.rects.length; i++) {
+		objects.push(cuboid.rects[i].triangles[0])
+		objects.push(cuboid.rects[i].triangles[1])
+	}
+
 	// Push lights
 	let lights = []
 
@@ -30,7 +55,7 @@ function getWorld() {
 	lights.push(new SunLight(new Vector(-1, -5, 0.5), COLORS.WHITE, 3))
 
 	//lights.push(new PointLight(new Vector(0, 7, 2), COLORS.GREEN, 300)) //Green
-	//lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 100)) //Red
+	lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 100)) //Red
 	//lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 200)) //Blue
 	//lights.push(new PointLight(new Vector(-1, -1, -1), COLORS.WHITE, 300))
 
@@ -40,7 +65,7 @@ function getWorld() {
 	let camera = new PerspectiveCamera(new Vector(cameraX, cameraY, cameraZ), new Vector(0, 1, -2), 30)
 
 	return {
-		objects: objects, 
+		objects: objects,
 		lights: lights,
 		backgroundColor: backgroundColor,
 		aperature: aperature,
@@ -102,4 +127,3 @@ function getChar(event) {
 		return null
 	}
 }
-

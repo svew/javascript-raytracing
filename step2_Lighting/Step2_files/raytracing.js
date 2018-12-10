@@ -14,10 +14,10 @@ function getWorld() {
 
 	// Push lights
 	let lights = []
-	//lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 20)) //Green
-	//lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 20)) //Red
-	//lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 20)) //Blue
-	lights.push(new PointLight(new Vector(0, 0, 0), new Vector(0, 0, 0), 20)) //White
+	lights.push(new PointLight(new Vector(0, 8, 2), new Vector(0, 1, 0), 200)) //Green
+	lights.push(new PointLight(new Vector(-2, 0.9, 1), new Vector(1, 0, 0), 200)) //Red
+	lights.push(new PointLight(new Vector(2, -5, -1), new Vector(0, 0, 1), 200)) //Blue
+	lights.push(new PointLight(new Vector(0, 0, 0), new Vector(0, 0, 0), 100)) //White
 
 
 	let ambientColor = new Vector(1,1,1)
@@ -25,8 +25,8 @@ function getWorld() {
 	let backgroundColor = new Vector(0.1,0)
 	let aperature = 2.0 //How much light we collect from the world
 
-	return { 
-		objects: objects, 
+	return {
+		objects: objects,
 		lights: lights,
 		ambientColor: ambientColor,
 		ambientStrength: ambientStrength,
@@ -108,7 +108,7 @@ function traceRay(ray, world) {
 				result.normal.normalize(),		//N
 				ray.direction.normalize()		//V
 			)
-		)		
+		)
 
 		colorSum = result.object.color.multiply(colorSum)
 	}

@@ -2,7 +2,6 @@
 //Because of floating point algebra, we allow some tolerance for ray intersection
 //to prevent artifacts such as the ones in resources/step2_WeirdArtifacts.png
 var EPSILON = 0.000001
-var kEPSILON = 0.00033546262
 
 var Sphere = function(center, radius, color) {
 	this.center = center
@@ -42,56 +41,49 @@ var Triangle = function(vertices, color) {
 }
 
 Triangle.prototype.collide = function(ray) {
-	//Compute Normal
 	let v0 = this.vertices[0]
 	let v1 = this.vertices[1]
 	let v2 = this.vertices[2]
-	let dir = ray.direction.normalize()
 
-	let v0v1 = v1.subtract(v0)
-	let v0v2 = v2.subtract(v0)
-	let N = v0v1.cross(v0v2).normalize()
+	let edge1 = v1.subtract(v0)
+	let edge2 = v2.subtract(v0)
+	let h = ray.direction.cross(edge2)
+	let a = edge1.dot(h)
 
-	let NDotrayDir = N.dot(dir)
-	if(Math.abs(NDotrayDir) < kEPSILON) {
-		return {collided: false, intersection: null, normal: null}
+	if(a > -EPSILON && a < EPSILON) {
+		return {collided:false, intersection: null, normal: null}
 	}
 
-	let d = N.dot(v0)
-	t = (N.dot(ray.start) + d)/NDotrayDir
-
-	if(t < 0) {
-		return {collided:false, intersection:null, normal: null}
+	let f = 1.0/a
+	let s = ray.start.subtract(v0)
+	let u = f * (s.dot(h))
+	if(u < 0.0 || u > 1.0) {
+		return {
+			collided: false, intersection: null, normal: null
+		}
 	}
 
-	let P = dir.multiply(t).add(ray.start)
-	let edge0 = v1.subtract(v0)
-	let vp0 = P.subtract(v0)
-	let C = edge0.cross(vp0)
+	let q = s.cross(edge1)
+	let v = f * ray.direction.dot(q)
 
-	if(N.dot(C) < 0) {
-		return {collided:false, intersection:null, normal:null}
+	if(v < 0.0 || u + v > 1.0) {
+		return {
+			collided: false, intersection: null, normal: null
+		}
 	}
 
-	let edge1 = v2.subtract(v1)
-	let vp1 = P.subtract(v1)
-	C = edge1.cross(vp1)
-	if(N.dot(C) < 0) {
-		return {collided:false, intersection:null, normal:null}
-	}
+	let t = f * edge2.dot(q)
 
-	let edge2 = v0.subtract(v2)
-	let vp2 = P.subtract(v2)
-	C = edge2.cross(vp2)
-	if(N.dot(C) < 0) {
-		return {collided:false, intersection:null, normal:null}
+	if(t > EPSILON) {
+		return {
+			collided: true, intersection: ray.start.add(ray.direction).multiply(t), normal: edge2.cross(edge1)
+		}
 	}
 
 	return {
-		collided: true,
-		intersection: P,
-		normal: N
+		collided: false, intersection: null, normal: null
 	}
+
 }
 
 var Rectangle = function(vertices, color) {

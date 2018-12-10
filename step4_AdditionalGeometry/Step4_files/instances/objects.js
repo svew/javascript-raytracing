@@ -41,45 +41,49 @@ var Triangle = function(vertices, color) {
 }
 
 Triangle.prototype.collide = function(ray) {
-	//Compute Normal
 	let v0 = this.vertices[0]
 	let v1 = this.vertices[1]
 	let v2 = this.vertices[2]
 
-	let v0v1 = v1.subtract(v0)
-	let v0v2 = v2.subtract(v0)
-	let normal = v0v1.cross(v0v2) //Normal Vector
+	let edge1 = v1.subtract(v0)
+	let edge2 = v2.subtract(v0)
+	let h = ray.direction.cross(edge2)
+	let a = edge1.dot(h)
 
-	let b = normal.dot(ray.direction.normalize())
-	let t = normal.dot(ray.start) + normal.dot(v0)
+	if(a > -EPSILON && a < EPSILON) {
+		return {collided:false, intersection: null, normal: null}
+	}
 
-	let intersection = ray.direction.normalize().multiply(t).add(ray.start)
-
-	let edge0 = v1.subtract(v0)
-	let vp0 = intersection.subtract(v0)
-	let C0 = edge0.cross(vp0)
-
-	let edge1 = v2.subtract(v1)
-	let vp1 = intersection.subtract(v1)
-	let C1 = edge1.cross(vp1)
-
-	let edge2 = v0.subtract(v2)
-	let vp2 = intersection.subtract(v2)
-	let C2 = edge2.cross(vp2)
-
-	if(b < EPSILON || t < 0 || normal.dot(C0) < 0 || normal.dot(C1) < 0 || normal.dot(C2) < 0) {
+	let f = 1.0/a
+	let s = ray.start.subtract(v0)
+	let u = f * (s.dot(h))
+	if(u < 0.0 || u > 1.0) {
 		return {
-			collided: false,
-			intersection: null,
-			normal: null
+			collided: false, intersection: null, normal: null
+		}
+	}
+
+	let q = s.cross(edge1)
+	let v = f * ray.direction.dot(q)
+
+	if(v < 0.0 || u + v > 1.0) {
+		return {
+			collided: false, intersection: null, normal: null
+		}
+	}
+
+	let t = f * edge2.dot(q)
+
+	if(t > EPSILON) {
+		return {
+			collided: true, intersection: ray.start.add(ray.direction).multiply(t), normal: edge2.cross(edge1)
 		}
 	}
 
 	return {
-		collided:true,
-		intersection: intersection,
-		normal: normal
+		collided: false, intersection: null, normal: null
 	}
+
 }
 
 var Rectangle = function(vertices, color) {
@@ -164,14 +168,4 @@ Cuboid.prototype.rotate = function(angle, x, y ,z) {
 			console.log("Choose one!")
 		}
 	}
-}
-
-var Plane = function(origin, normal, color) {
-	this.origin = origin
-	this.normal = normal
-	this.color = color
-}
-
-Plane.prototype.collide = function(ray) {
-	
 }

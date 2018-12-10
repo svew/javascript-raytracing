@@ -9,57 +9,52 @@ function getWorld() {
 	let objects = []
 	//objects.push(new Sphere(new Vector(0.2, 0, 2.0), 0.5, new Vector(1, 1, 0.5))) //Large
 	//objects.push(new Sphere(new Vector(-0.4, 0.5, 2.0), 0.2, new Vector(0, 1, 1))) //Small
-	//objects.push(new Sphere(new Vector(-0.5, -0.5, 2.0), 0.35, new Vector(1, 1, 1))) //Medium
+	//objects.push(new Sphere(new Vector(-0.5, -0.5, 3.0), 0.35, new Vector(1, 1, 1))) //Medium
 	width = 1
 	height = 1
 
-
+	/*
 	objects.push(new Triangle([
 		new Vector(0, 0.5, 3), //Vertice 1
-		new Vector(-0.5, -0.5, 2), //Vertice 2
+		new Vector(-0.5, -0.5, 3), //Vertice 2
 		new Vector(0.5, -0.5, 3), //Vertice 3
-	], new Vector(1, 0, 0)))
+	], new Vector(1, 0, 0)))*/
 
 	/*
 	let rectangle = new Rectangle([
-		new Vector(-0.2 * width, 0.2 * height, 2.0),
-		new Vector(-0.2 * width, -0.2 * height, 2.0),
-		new Vector(0.2 * width, 0.2 * height, 2.0),
-		new Vector(0.2 * width, -0.2 * height, 2.0)
+		new Vector(-0.2 * width, 0.2 * height, 1.0),
+		new Vector(-0.2 * width, -0.2 * height, 1.0),
+		new Vector(0.2 * width, 0.2 * height, 1.0),
+		new Vector(0.2 * width, -0.2 * height, 1.0)
 	], new Vector(1, 1, 1))
 	for(let i = 0; i < 2; i++) {
 		objects.push(rectangle.triangles[i])
 	}*/
 
-
-	/*
 	let cuboid = new Cuboid([
-		new Vector(-0.2, 0.2, 2.0), // TOP LEFT -Z
-		new Vector(-0.2, -0.2, 2.0), // BOTTOM LEFT -Z
-		new Vector(0.2, 0.2, 2.0), // TOP RIGHT Z
-		new Vector(0.2, -0.2, 2.0), // BOTTOM RIGHT -Z
-		new Vector(-0.2, 0.2, 4.0), // TOP LEFT Z
-		new Vector(-0.2, -0.2, 4.0), // BOTTOM LEFT Z
-		new Vector(0.2, 0.2, 4.0), // TOP RIGHT Z
-		new Vector(0.2, -0.2, 4.0) // BOTTOM RIGHT -Z
+		new Vector(-0.2, 0.1, 3.0), // TOP LEFT -Z
+		new Vector(-0.2, -0.2, 3.0), // BOTTOM LEFT -Z
+		new Vector(0, 0, 2.0), // TOP RIGHT Z
+		new Vector(0, -0.3, 2.0), // BOTTOM RIGHT -Z
+		new Vector(0, 0.2, 4.0), // TOP LEFT Z
+		new Vector(0, 0, 4.0), // BOTTOM LEFT Z
+		new Vector(0.2, 0.1, 3.0), // TOP RIGHT Z
+		new Vector(0.2, -0.2, 3.0) // BOTTOM RIGHT -Z
 	], new Vector(1, 1, 1))
 
 	for(let i = 0; i < cuboid.rects.length; i++) {
 		objects.push(cuboid.rects[i].triangles[0])
 		objects.push(cuboid.rects[i].triangles[1])
-	}*/
-
-
-	//cuboid.rotate(10, 1, 0, 0)
+	}
 
 
 	// Push lights
 	let lights = []
 	lights.push(new PointLight(new Vector(0, 7, 2), COLORS.GREEN, 500)) //Green
-	lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 300)) //Red
-	lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 600)) //Blue
-	lights.push(new PointLight(new Vector(-1, -1, -1), COLORS.WHITE, 200))
-	lights.push(new PointLight(new Vector(0, 0, 1), COLORS.WHITE, 200));
+	//lights.push(new PointLight(new Vector(-2, 0.9, 1), COLORS.RED, 300)) //Red
+	lights.push(new PointLight(new Vector(2, -5, -1), COLORS.BLUE, 500)) //Blue
+	lights.push(new PointLight(new Vector(-1, -1, -1), COLORS.WHITE, 500))
+	lights.push(new PointLight(new Vector(1, 1, -1), COLORS.WHITE, 100));
 
 	let ambientColor = new Vector(1,1,1)
 	let ambientStrength = 0.2
