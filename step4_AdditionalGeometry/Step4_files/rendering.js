@@ -70,7 +70,7 @@ function traceRay(ray, world) {
 				lightRay.direction, //L
 				result.normal,		//N
 				ray.direction 		//V
-			)		
+			)
 		)
 
 		colorSum = result.object.color.multiply(colorSum)
@@ -86,17 +86,17 @@ function render(world, imageData, width, height) {
 
 	for(let x = 0; x < width; x++) {
 		for(let y = 0; y < height; y++) {
-	
+
 			//Create the ray
 			let rx = (x / width) * 2 - 1
 			let ry = (y / height) * 2 - 1
 			let ray = world.camera.getRay(rx, ry)
-	
+
 			//Get the color from that ray
 			let color = traceRay(ray, world)
-	
+
 			//Draw that pixel on the pixel data array
-			
+
 			var index = (y * width + x) * 4
 			imageData.data[index]     = color.x * 255	// R
 			imageData.data[index + 1] = color.y * 255	// G
@@ -105,4 +105,3 @@ function render(world, imageData, width, height) {
 		}
 	}
 }
-
