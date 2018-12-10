@@ -1,7 +1,7 @@
 
 //Because of floating point algebra, we allow some tolerance for ray intersection
 //to prevent artifacts such as the ones in resources/step2_WeirdArtifacts.png
-var EPSILON = 0.000001
+var EPSILON = 0.0000001
 
 
 

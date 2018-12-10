@@ -36,9 +36,9 @@ by the given color.
 Absorbtion: How much absorbed light will not be reemitted
 */
 
-var Material = function(reflectivity, smoothness, absorbtion, color) {
+var Material = function(reflectivity, smoothness, absorption, color) {
 	this.reflectivity = reflectivity
 	this.smoothness = smoothness
-	this.absorbtion = absorbtion
+	this.absorption = absorption
 	this.color = color.add(new Vector(0.01, 0.01, 0.01)) //Because no surface should 100% absorb all forms of light
 }

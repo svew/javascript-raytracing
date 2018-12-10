@@ -57,7 +57,6 @@ function main() {
 	context.putImageData(imageData, 0, 0)
 	console.log("New Image data posted")
 
-	console.log(new Vector(0, 0, 1).rotateX(10).string())
 	window.onkeypress = handleKeyPress
 }
 
