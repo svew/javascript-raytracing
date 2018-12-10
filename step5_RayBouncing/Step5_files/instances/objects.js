@@ -72,27 +72,28 @@ Triangle.prototype.collide = function(ray) {
 	let v0 = this.vertices[0]
 	let v1 = this.vertices[1]
 	let v2 = this.vertices[2]
-	let edge1 = v1.subtract(v0)
-	let edge2 = v2.subtract(v0)
-	let h = ray.direction.normalize().cross(edge2)
-	let a = edge1.dot(h)
-	let f = 1.0/a
+	let v1v0 = v1.subtract(v0)
+	let v2v0 = v2.subtract(v0)
+	let P = ray.direction.normalize().cross(v2v0)
+	let determinant = v1v0.dot(P)
+	let invertedDeterminant = 1.0/determinant
 	let s = ray.start.subtract(v0)
-	let u = f * (s.dot(h))
-	let q = s.cross(edge1)
-	let v = f * ray.direction.normalize().dot(q)
+	let Q = s.cross(v1v0)
 
-	if(a > -EPSILON && a < EPSILON || u < 0.0 || u > 1.0 || v < 0.0 || u + v > 1.0) {
+	let u = invertedDeterminant * (s.dot(P))
+	let v = invertedDeterminant * ray.direction.normalize().dot(Q)
+
+	if(determinant > -EPSILON && determinant < EPSILON || u < 0.0 || u > 1.0 || v < 0.0 || u + v > 1.0) {
 		return {collided:false, intersection: null, normal: null}
 	}
 
-	let t = f * edge2.dot(q)
+	let t = invertedDeterminant * v2v0.dot(Q)
 
 	if(t > EPSILON) {
 		return {
 			collided: true,
 			intersection: ray.start.add(ray.direction.normalize()).multiply(t),
-			normal: edge2.cross(edge1).normalize()
+			normal: v2v0.cross(v1v0).normalize()
 		}
 	}
 
