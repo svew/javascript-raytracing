@@ -33,12 +33,12 @@ function getWorld() {
 		new Vector(-1.3, -0.1, 2.0), // BOTTOM RIGHT -Z
 
 		//BACK POINTS
-		new Vector(-1.3, 0.2, 4.0), // TOP LEFT Z
-		new Vector(-1.3, -0.1, 4.0), // BOTTOM LEFT Z
+		new Vector(-1.7, 0.2, 4.1), // TOP LEFT Z
+		new Vector(-1.7, -0.1, 4.1), // BOTTOM LEFT Z
 
 		//RIGHT POINTS
-		new Vector(-0.7, 0.2, 3.0), // TOP RIGHT Z
-		new Vector(-0.7, -0.2, 3.0) // BOTTOM RIGHT -Z
+		new Vector(-1, 0.2, 3.0), // TOP RIGHT Z
+		new Vector(-1, -0.2, 3.0) // BOTTOM RIGHT -Z
 
 	], new Vector(1, 1, 1), sphereMaterial)
 
