@@ -74,22 +74,24 @@ Triangle.prototype.collide = function(ray) {
 	let v2 = this.vertices[2]
 	let v1v0 = v1.subtract(v0)
 	let v2v0 = v2.subtract(v0)
+
 	let P = ray.direction.normalize().cross(v2v0)
+	let S = ray.start.subtract(v0)
+	let Q = S.cross(v1v0)
+
 	let determinant = v1v0.dot(P)
 	let invertedDeterminant = 1.0/determinant
-	let s = ray.start.subtract(v0)
-	let Q = s.cross(v1v0)
 
-	let u = invertedDeterminant * (s.dot(P))
+	let u = invertedDeterminant * (S.dot(P))
 	let v = invertedDeterminant * ray.direction.normalize().dot(Q)
 
-	if(determinant > -EPSILON && determinant < EPSILON || u < 0.0 || u > 1.0 || v < 0.0 || u + v > 1.0) {
+	if(determinant > -EPSILON && determinant < EPSILON || u < 0.0 || u > 1.0 || v < 0.0 || u + v > 1.0) { //Ray misses the triangle
 		return {collided:false, intersection: null, normal: null}
 	}
 
 	let t = invertedDeterminant * v2v0.dot(Q)
 
-	if(t > EPSILON) {
+	if(t > EPSILON) { //Colission!
 		return {
 			collided: true,
 			intersection: ray.start.add(ray.direction.normalize()).multiply(t),
