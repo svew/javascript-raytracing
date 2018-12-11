@@ -62,7 +62,7 @@ function getWorld() {
 	let backgroundColor = new Vector(0.3, 0.3, 0.7)
 	let aperature = 1.0 // How much light we collect from the world
 
-	let camera = new PerspectiveCamera(new Vector(cameraX, cameraY, cameraZ), new Vector(0, 1, -2), 30)
+	let camera = new PerspectiveCamera(new Vector(cameraX, cameraY, cameraZ), new Vector(0, 1, -2), 20)
 
 	return {
 		objects: objects,
