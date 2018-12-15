@@ -18,7 +18,7 @@ Sphere.prototype.collide = function(ray) {
 	if(c > -EPSILON && b > -EPSILON)  {
 		return { collided: false, intersection: null, normal: null } // Origin outside of sphere, and ray faces away
 	}
-	
+
 	let discriminant = b * b - c
 	if(discriminant < 0.0) {
 		return { collided: false, intersection: null, normal: null } // Ray misses sphere
@@ -28,8 +28,8 @@ Sphere.prototype.collide = function(ray) {
 	if(t < 0.0) t = 0.0
 	let q = ray.direction.multiply(t).add(ray.start) // The point of intersection
 
-	return { 
-		collided: true, 
+	return {
+		collided: true,
 		intersection: q,
 		normal: q.subtract(this.center)
 	}
@@ -41,8 +41,39 @@ var Triangle = function(vertices, color) {
 }
 
 Triangle.prototype.collide = function(ray) {
-	//Compute Normal
-	
+	let v0 = this.vertices[0]
+	let v1 = this.vertices[1]
+	let v2 = this.vertices[2]
+	let v1v0 = v1.subtract(v0)
+	let v2v0 = v2.subtract(v0)
+
+	let P = ray.direction.normalize().cross(v2v0)
+	let S = ray.start.subtract(v0)
+	let Q = S.cross(v1v0)
+
+	let determinant = v1v0.dot(P)
+	let invertedDeterminant = 1.0/determinant
+
+	let u = invertedDeterminant * (S.dot(P))
+	let v = invertedDeterminant * ray.direction.normalize().dot(Q)
+
+	if(determinant > -EPSILON && determinant < EPSILON || u < 0.0 || u > 1.0 || v < 0.0 || u + v > 1.0) { //Ray misses the triangle
+		return {collided:false, intersection: null, normal: null}
+	}
+
+	let t = invertedDeterminant * v2v0.dot(Q)
+
+	if(t > EPSILON) { //Colission!
+		return {
+			collided: true,
+			intersection: ray.start.add(ray.direction.normalize()).multiply(t),
+			normal: v2v0.cross(v1v0).normalize()
+		}
+	}
+
+	return {
+		collided: false, intersection: null, normal: null
+	}
 }
 
 var Rectangle = function(vertices, color) {
@@ -53,7 +84,7 @@ var Rectangle = function(vertices, color) {
 
 	this.triangles = []
 	this.triangles[0] = new Triangle([v0, v1, v2], color)
-	this.triangles[1] = new Triangle([v3, v2, v1], color) 
+	this.triangles[1] = new Triangle([v3, v2, v1], color)
 }
 
 var Cuboid = function(vertices, color) {
@@ -119,7 +150,7 @@ Cuboid.prototype.rotate = function(angle, x, y ,z) {
 					oldY = this.rects[i].triangles[j].vertices[k].y
 					oldZ = this.rects[i].triangles[j].vertices[k].z
 					this.rects[i].triangles[j].vertices[k].x = (oldX * Math.cos(angle)) - (oldY * Math.sin(angle))
-					this.rects[i].triangles[j].vertices[k].y = (oldX * Math.sin(angle)) + (oldY * Math.cos(angle))  
+					this.rects[i].triangles[j].vertices[k].y = (oldX * Math.sin(angle)) + (oldY * Math.cos(angle))
 					this.rects[i].triangles[j].vertices[k].z = oldZ
 				}
 			}
