@@ -35,3 +35,4 @@ By shooting multiple rays out from a single pixel, we can get an antialiasing ef
 
 ## Step 8: Transparency
 If we have time?
+
